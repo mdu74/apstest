@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>APS | Estimates</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="plugins/ionicons/css/ionicons.min.css">
+  <!-- Ion Slider -->
+  <link rel="stylesheet" href="plugins/ion-rangeslider/css/ion.rangeSlider.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light border-bottom">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+        </li>
+      </ul>
+
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">        
+        <li class="nav-item">
+          <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
+            <i class="fas fa-th-large"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+      <!-- Brand Logo -->
+      <a href="index.html" class="brand-link">
+        <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+          style="opacity: .8">
+        <span class="brand-text font-weight-light">APS</span>
+      </a>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+          <div class="image">
+            <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          </div>
+          <div class="info">
+            <a href="dashboard.html" class="d-block">Mduduzi Cwele</a>
+          </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <!-- Add icons to the links using the .nav-icon class
+                     with font-awesome or any other icon font library -->
+            <li class="nav-item has-treeview menu-open">
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="dashboard.html" class="nav-link">
+                    <i class="fas fa-chart-bar nav-icon"></i>
+                    <p>Dashboard</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="estimates.html" class="nav-link active">
+                    <i class="fas fa-chart-pie nav-icon"></i>
+                    <p>Estimates</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="ourContacts.html" class="nav-link">
+                    <i class="fas fa-phone-alt nav-icon"></i>
+                    <p>Our Contacts</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="signIn.html" class="nav-link">
+                    <i class="fas fa-sign-in-alt nav-icon"></i>
+                    <p>Sign In</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="register.html" class="nav-link">
+                    <i class="fas fa-pen-alt nav-icon"></i>
+                    <p>Register</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+      </div>
+      <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>Estimates</h1>
+            </div>
+            <div class="col-sm-6">
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="card card-success">
+                <div class="card-header">
+                  <h3 class="card-title">Please Set An Estimate</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <div class="form-group row margin">
+                    <!-- <div class="col-sm-6">                      
+                      <input type="text" readonly class="form-control-plaintext" id="range_1" value="Investment Amount">
+                    </div> -->
+                    <label for="range_1" class="col-sm-2 col-form-label"style="margin-top: 12px;">Investment Amount</label>
+
+                    <div class="col-sm-10">
+                      <input id="range_1" type="text" name="range_1" value="" class="form-control">
+                    </div>
+                  </div>
+                  <div class="form-group row margin">
+                    <div class="col-sm-12">
+                      <div class="info-box bg-success">
+                        <span class="info-box-icon"><i class="far fa-thumbs-up"></i></span>
+
+                        <div class="info-box-content">
+                          <span class="info-box-text">Profile Percentage</span>
+                          <span class="info-box-number">70</span>
+
+                          <div class="progress">
+                            <div class="progress-bar" style="width: 70%"></div>
+                          </div>
+                          <span class="progress-description">
+                            70% Increase in 30 Days
+                          </span>
+                        </div>
+                        <!-- /.info-box-content -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row margin">                    
+                    <label for="range_3" class="col-sm-2 col-form-label" style="margin-top: 12px;">Maturity Item</label>
+
+                    <div class="col-sm-10">
+                      <input id="range_3" type="text" name="range_3" value="" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <footer class="main-footer">
+      <strong>Copyright &copy; 2019 <a href="#">APS | Arbitrage Profile Sharing</a>.</strong> All rights reserved.
+    </footer>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+  </div>
+  <!-- ./wrapper -->
+
+  <!-- jQuery -->
+  <script src="plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- FastClick -->
+  <script src="plugins/fastclick/fastclick.js"></script>
+  <!-- AdminLTE App -->
+  <script src="dist/js/adminlte.min.js"></script>
+  <!-- Ion Slider -->
+  <script src="plugins/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
+  <script>
+    $(function () {
+      /* ION SLIDER */
+      $('#range_1').ionRangeSlider({
+        min: 1500,
+        max: 500000,
+        type: 'single',
+        step: 10,
+        postfix: ' rands',
+        prettify: false,
+        hasGrid: true
+      })
+      $('#range_2').ionRangeSlider({
+        min: 0,
+        max: 10,
+        type: 'single',
+        step: 0.1,
+        postfix: ' rands',
+        prettify: false,
+        hasGrid: true
+      })
+
+      $('#range_3').ionRangeSlider({
+        min: 30,
+        max: 90,
+        type: 'single',
+        step: 30,
+        postfix: ' days',
+        prettify: false,
+        hasGrid: true
+      })
+
+      $('#range_4').ionRangeSlider({
+        min: 0,
+        max: 10,
+        type: 'single',
+        step: 0.1,
+        postfix: ' mm',
+        prettify: false,
+        hasGrid: true
+      })
+
+      $('#range_5').ionRangeSlider({
+        min: 0,
+        max: 10,
+        type: 'single',
+        step: 0.1,
+        postfix: ' mm',
+        prettify: false,
+        hasGrid: true
+      })
+
+      $('#range_6').ionRangeSlider({
+        min: -50,
+        max: 50,
+        from: 0,
+        type: 'single',
+        step: 1,
+        postfix: '°',
+        prettify: false,
+        hasGrid: true
+      })
+    })
+  </script>
+</body>
+
+</html>
