@@ -1,0 +1,225 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Profile</h1>
+        </div>
+        <div class="col-sm-6">
+        </div>
+      </div>
+      
+      <div *ngIf = "isVerified">
+        <div class="row">
+          <div class="col-lg-12 col-12">
+            <p>We've missed you in your absence.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-12">
+            <p>Whilst you were gone, we continued to champion your intrest and secure wealth on your behalf. Enjoy your
+              stay.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-12">
+            <p>Arbitrage Profit Share appreciates your contribution to our growth.</p>
+          </div>
+        </div>
+        
+        <div *ngFor="let estimate of estimates">
+          <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                      <h3 class="card-title">{{estimate.createdOn}} | <i>Expires in {{estimate.expiresIn}} days</i></h3>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                          <i class="fas fa-minus"></i></button>
+                        <!-- <button type="button" class="btn btn-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                          <i class="fas fa-times"></i></button> -->
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                          <div class="col-md-4">
+                              <!-- small box -->
+                              <div class="small-box bg-info">
+                                <div class="inner">
+                                  <h3><sup>R</sup>{{estimate.amountInvested}}</h3>
+                    
+                                  <p>Amount Invested</p>
+                                </div>
+                                <div class="dashboard-card-icon">
+                                  <i class="far fa-money-bill-alt"></i>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- ./col -->
+                            <div class="col-md-4">
+                              <!-- small box -->
+                              <div class="small-box bg-success">
+                                <div class="inner">
+                                  <h3>{{estimate.interestRate}}<sup>%</sup></h3>
+                    
+                                  <p>Interest Rate</p>
+                                </div>
+                                <div class="dashboard-card-icon">
+                                  <i class="fas fa-chart-line"></i>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- ./col -->
+                            <div class="col-md-4">
+                              <!-- small box -->
+                              <div class="small-box bg-danger">
+                                <div class="inner">
+                                  <h3><sup>R</sup>{{estimate.investmentReturns}}</h3>
+                    
+                                  <p>Investment Returns</p>
+                                </div>
+                                <div class="dashboard-card-icon">
+                                  <i class="fas fa-chart-pie"></i>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- ./col -->
+                      </div>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+            </div>            
+          </div>
+        </div>        
+      </div>
+
+      <div *ngIf = "!isVerified">
+        <div class="row">
+          <div class="col-lg-12 col-12">
+            <p>Please verify your email address.</p>
+          </div>
+        </div>
+      </div>
+      
+
+      <!-- Profile Image -->
+      <div class="card card-primary card-outline">
+        <div class="card-body box-profile">
+          <div *ngIf="profileMode === 'display'">
+            <div class="text-center">
+              <img class="profile-user-img img-fluid img-circle" [src]="user.image" alt="User profile picture">
+            </div>
+  
+            <h3 class="profile-username text-center">{{user.name}}</h3>
+  
+            <p class="text-muted text-center">{{user.email}}</p>
+            <p class="text-muted text-center">{{user.referenceNumber}}</p>
+  
+            <ul class="list-group list-group-unbordered mb-3">
+              <li class="list-group-item">
+                <b>Registered via:</b> <a class="float-right">{{user.provider}}</a>
+              </li>
+              <li *ngIf='user.emailVerified == false' class="list-group-item">
+                <p>We still need to verify your email</p>
+              </li>
+              <li class="list-group-item">
+                <b>Cellphone</b>
+                <a *ngIf='user.cellphone != 0' class="float-right">
+                  {{user.cellphone}}
+                </a>
+                <a *ngIf='user.cellphone == 0' class="float-right">
+                  You need to provide us with your cellphone number
+                </a>
+              </li>
+              <li class="list-group-item">
+                <b>When Account Was Created:</b> <a class="float-right">{{user.creationTime}}</a>
+              </li>
+              <li class="list-group-item">
+                <b>Last Sign In Time:</b> <a class="float-right">{{user.lastSignInTime}}</a>
+              </li>
+            </ul>
+
+            <a *ngIf = "isVerified" (click)="switchProfileMode()" class="btn btn-primary btn-block" style="color:#fff"><b>Edit Profile</b></a>
+          </div>
+
+          <div *ngIf="profileMode === 'edit'">  
+            <p>Please edit your details</p>
+
+            <form [formGroup]="dashboardForm">
+
+                <div class="form-group">
+                    <label class="control-label">
+                      <i class="fas fa-user"></i>Your name</label>
+                    <input formControlName="name" type="text" class="form-control" ngModel="{{user.name}}" placeholder ="Your name is?" />
+                </div>
+                
+                <div class="form-group">
+                    <label class="control-label">
+                      <i class="fas fa-user-friends"></i>Your surname</label>
+                    <input formControlName="surname" type="text" class="form-control" ngModel="{{user.surname}}" placeholder="Your surname is?" />
+                </div>
+                
+                <div class="form-group">
+                    <label class="control-label">
+                      <i class="fas fa-id-card"></i>Your id number</label>
+                    <input formControlName="idnumber" type="text" class="form-control" ngModel="{{user.idNumber}}" placeholder="Your id number is?" pattern="[0-9]*" maxlength="13" numbersOnly/>
+                </div>
+
+                <div class="form-group" *ngIf="isPassport">
+                    <label class="control-label">
+                      <i class="fas fa-id-card"></i>Your passport number</label>
+                    <input formControlName="passport" type="text" class="form-control" ngModel="{{user.passportNumber}}" placeholder="Your cellphone number is?" pattern="[0-9]*" maxlength="13" numbersOnly/>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">
+                      <i class="fas fa-mobile-alt"></i>Your cellphone</label>
+                    <input formControlName="cellphone" type="text" class="form-control" ngModel="{{user.cellphone}}" placeholder="Your cellphone number is?" pattern="[0-9]*" maxlength="10" numbersOnly/>
+                </div>
+
+                <div class="form-group">
+                  <label>Banks</label>
+
+                  <div *ngIf = "bankIsSelected == true" class="row">
+                    <div class="col-md-4">
+                      <div class="info-box">
+                        <!-- <span class="info-box-icon bg-info"><i class="fas fa-piggy-bank"></i></span> -->
+                        <span class="info-box-icon" [ngClass]="getBankClass()"><i class="fas fa-piggy-bank"></i></span>
+                            
+                        <div class="info-box-content">
+                          <span class="info-box-text">{{user.bank}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-8">
+                      <select  class="form-control" formControlName="bank" ngModel="user.bank">
+                        <option disabled>You want to change your account?</option>
+                        <option *ngFor="let bank of banks" ngValue="{{bank}}">{{bank}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <span *ngIf = "bankIsSelected == false">
+                    <select  class="form-control" formControlName="bank" ngModel="user.bank">
+                      <option disabled>Please choose a bank?</option>
+                      <option *ngFor="let bank of banks" ngValue="{{bank}}">{{bank}}</option>
+                    </select>
+                  </span> 
+                </div>
+          </form>
+  
+          <a (click)="goBackToDisplay()" class="btn btn-primary btn-block" style="color:#fff"><b>Go Back To Display Profile</b></a><a (click)="updateProfile(dashboardForm.value)" class="btn btn-primary btn-block" style="color:#fff"><b>Update Profile</b></a>
+          </div>
+        </div>
+        <!-- /.card-body -->
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<router-outlet></router-outlet>

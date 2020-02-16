@@ -1,0 +1,104 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Registration</h1>
+          </div><!-- /.col -->
+          <!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+        <div class="offset-md-3 col-md-6">
+            <div class="card">
+                <div class="card-body register-card-body">
+                    <p class="login-box-msg">As our new member please fill in the details below</p>
+        
+                    <form [formGroup]="registerForm">
+                        <div class="input-group mb-3">
+                            <input formControlName="name" type="text" class="form-control" placeholder="Enter your name">
+                            <div class="input-group-append input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input formControlName="surname" type="text" class="form-control" placeholder="Enter your surname">
+                            <div class="input-group-append input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input  formControlName="email" type="email" class="form-control" placeholder="Enter your email" (keyup)="getEmailAddress($event)">
+                            <div class="input-group-append input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input formControlName="confirmEmail" type="email" class="form-control" placeholder="Retype your email">
+                            <div class="input-group-append input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input formControlName="password" type="password" class="form-control" placeholder="Enter your password">
+                            <div class="input-group-append input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input formControlName="retypePassword" type="password" class="form-control" placeholder="Retype your password">
+                            <div class="input-group-append input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="icheck-primary">
+                                    <input formControlName="agreedToTerms" type="checkbox" id="agreeTerms" name="terms" value="agreedToTerms" (change)="agreeToConditions($event)">
+                                    <label for="agreeTerms">
+                                        I agree to the <a href="#" data-toggle="modal" data-target="#terms-and-conditions-modal">terms and conditions</a>
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-4">
+                                <button [disabled]="!agree" (click)="tryRegister(registerForm.value)" type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    </form>
+        
+                    <div class="social-auth-links text-center">
+                        <p>- OR -</p>
+                        <!-- <a (click)="facebookLogin()" class="btn btn-block btn-primary">
+                            <i class="fab fa-facebook mr-2"></i>
+                            Sign up using Facebook
+                        </a> -->
+                        <a (click)="googleLogin()" class="btn btn-block btn-danger" style="color:#fff">
+                            <i class="fab fa-google-plus mr-2"></i>
+                            Sign up using Google+
+                        </a>
+                    </div>
+        
+                    <a routerLink="/signIn" class="text-center">I already have a membership</a>
+                </div>
+                <!-- /.form-box -->
+            </div>
+        </div>
+          <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+  </div>  
+<app-terms-and-conditions></app-terms-and-conditions>
+<router-outlet></router-outlet>

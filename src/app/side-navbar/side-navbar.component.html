@@ -1,0 +1,66 @@
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary aps-theme-nav elevation-4">
+    <!-- Brand Logo -->
+    <a href="/home" class="brand-link">
+        <img src="assets/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+            style="opacity: .8">
+        <span class="brand-text font-weight-light">APS</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                   with font-awesome or any other icon font library -->
+                <li class="nav-item has-treeview menu-open">
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a routerLink="/dashboard" class="nav-link" routerLinkActive="active">
+                                <i class="fas fa-chart-bar nav-icon"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a routerLink="/estimates" class="nav-link" routerLinkActive="active">
+                                <i class="fas fa-chart-pie nav-icon"></i>
+                                <p>Estimates</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a routerLink="/ourContacts" class="nav-link" routerLinkActive="active">
+                                <i class="fas fa-phone-alt nav-icon"></i>
+                                <p>Our Contacts</p>
+                            </a>
+                        </li>
+                        <li class="nav-item register">
+                            <a routerLink="/register" class="nav-link" routerLinkActive="active">
+                                <i class="fas fa-pen-alt nav-icon"></i>
+                                <p>Register</p>
+                            </a>
+                        </li>
+                        <li class="nav-item sign-in">
+                            <a routerLink="/signIn" class="nav-link" routerLinkActive="active">
+                                <i class="fas fa-sign-in-alt nav-icon"></i>
+                                <p>Sign In</p>
+                            </a>
+                        </li>
+                        <li class="nav-item log-out">
+                            <a (click)="logout()" class="nav-link" routerLinkActive="active">
+                                <i class="fas fa-sign-out-alt nav-icon"></i>
+                                <p>Log Out</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
+
+<router-outlet></router-outlet>

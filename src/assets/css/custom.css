@@ -1,0 +1,21 @@
+.aps-theme-nav{
+    background-color: rgb(15,135,255);
+}
+
+.aps-theme-nav .sidebar a {
+    color: rgb(212,212,212);
+}
+
+.aps-theme-nav .nav-treeview>.nav-item>.nav-link.active{
+    color: rgb(15,135,255);
+}
+
+.aps-theme-nav .nav-treeview>.nav-item>.nav-link {
+    color: rgb(212,212,212);
+}
+
+.aps-landing-page-background{
+    width:100%;
+    height: auto;
+    background-image: url("../img/background.png");
+}
