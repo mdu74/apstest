@@ -70,7 +70,6 @@ export class RegisterComponent implements OnInit {
 
   tryRegister(value){
     if(this.agree){
-      debugger;
       if(this.emailContains(value.email, "hotmail") || this.emailContains(value.email, "yahoo")){
         this.authenticationService.doRegister(value)
         .then(res => {

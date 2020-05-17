@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../service/authentication.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { UsersService } from '../service/users.service';
+import { Router, ActivatedRoute, NavigationEnd  } from '@angular/router';
 import Swal from 'sweetalert2';
+import * as _ from "lodash";
 
 @Component({
   selector: 'app-side-navbar',
@@ -9,10 +11,42 @@ import Swal from 'sweetalert2';
   styleUrls: ['./side-navbar.component.css']
 })
 export class SideNavbarComponent implements OnInit {
+  isLoggedIn: boolean = true;
+  canRegister: boolean = false;
+  mySubscription: any;
 
-  constructor(public authenticationService: AuthenticationService, private router: Router) { }
+  constructor(public authenticationService: AuthenticationService, private router: Router, public usersService: UsersService) {
+    this.usersService.getCurrentUser()
+    .then((result)=>{
+      this.isLoggedIn = true;
+      this.canRegister = false;
+    },(error)=>{
+      this.isLoggedIn = false;
+      this.canRegister = true;
+    });       
+    
+    this.router.navigateByUrl('/dashboard', { skipLocationChange: true }).then(() => {
+      console.log("Test: ", this.router.navigate(['dashboard']));
+      this.router.navigate(['side-navbar']);
+    }); 
+    // setTimeout(() => {
+    //   let registerNavBar = document.getElementById("registerUser");
+    //   if (!_.isNull(registerNavBar) && this.isLoggedIn) {
+    //     console.log("Location reload happens here... ");
+    //     location.reload();   
+    //   }
+    // }, 1000);
+  }
 
-  ngOnInit() {
+  ngOnInit() {            
+    this.usersService.getCurrentUser()
+    .then((result)=>{
+      this.isLoggedIn = true;
+      this.canRegister = false;
+    },(error)=>{
+      this.isLoggedIn = false;
+      this.canRegister = true;
+    });  
   }
 
   logout(){
@@ -31,7 +65,7 @@ export class SideNavbarComponent implements OnInit {
         }, (error) => {
           console.log("Logout error", error);
         });        
-      }
+      }      
     })
   }
 

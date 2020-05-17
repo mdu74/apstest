@@ -16,6 +16,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class SignInComponent implements OnInit {
   loginForm: FormGroup;
   errorMessage: string = '';
+  displayForgotPasswordForm: boolean;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -55,6 +56,19 @@ export class SignInComponent implements OnInit {
       swal.fire(err.code, err.message, 'error');
       this.errorMessage = err.message;
     })
+  }
+
+  forgotPassword(){
+    this.displayForgotPasswordForm = this.displayForgotPasswordForm ? false : true;
+  }
+
+  resetPassword(email: string){
+    this.authenticationService.forgotPassword(email)
+    .then(res => {      
+      swal.fire(res.code, res.message, 'success');
+    }, err => {      
+      swal.fire(err.code, err.message, 'error');
+    });
   }
 
   ngOnInit() {

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../service/users.service';
 import { EstimatesService } from '../service/estimates.service';
 import { AuthenticationService } from '../service/authentication.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute , NavigationEnd} from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '../models/user.model';
 import { Estimate } from '../models/estimate.model';
@@ -17,7 +17,6 @@ import * as moment from 'moment';
 })
 
 export class DashboardComponent implements OnInit {
-
   user: User = new User();
   getUser: User = new User();
   estimate: Estimate = new Estimate();
@@ -36,7 +35,8 @@ export class DashboardComponent implements OnInit {
     public estimatesService: EstimatesService,
     public authenticationService: AuthenticationService,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) { 
 
     this.banks = [
@@ -54,8 +54,7 @@ export class DashboardComponent implements OnInit {
 
     this.isVerified = this.getUser.emailVerified;
     this.getUserProfile();
-    this.hasBankDetails();
-    this.getBankClass();
+    this.getBankClass();    
   }
 
   getBankClass(){
@@ -72,10 +71,6 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  hasBankDetails(){    
-    this.bankIsSelected = (this.user.bank.length > 0) || _.isUndefined(this.user.bank) ? false : true;
-  }
-
   getUserProfile(){
     this.estimatesService.getEstimatesByUser(this.getUser.uid).onSnapshot((querySnapshot)=>{
       querySnapshot.forEach((estimateDoc)=>{
@@ -90,7 +85,6 @@ export class DashboardComponent implements OnInit {
         estimate.expiryDate = data.expiryDate;
         estimate.expiresIn = this.getRemainingDays(data.expiryDate);
         estimate.userId = data.userId;
-
         this.estimates.push(estimate);
       });
 
@@ -105,22 +99,23 @@ export class DashboardComponent implements OnInit {
           );                    
         }
       });
+      
     });    
 
     this.setUserDataFromDatabase(this.getUser.uid);
   }
 
-  setUserDataFromDatabase(userId: string){
-    this.usersService.getUserProfile(userId).subscribe(data => { 
+  setUserDataFromDatabase(userId: string): void{
+    this.usersService.getUserProfile(userId).subscribe(data => {
       this.user.uid = data.uid;
       this.user.cellphone = data.cellphone;
-      this.user.name = data.name;
-      this.user.surname = data.surname;
+      this.user.name = _.isEmpty(data.name) ? this.getName(this.getUser.name) : data.name;
+      this.user.surname = _.isEmpty(data.name) ? this.getSurname(this.getUser.name) : data.surname;
       this.user.image = this.getUser.image;
       this.user.provider = this.getUser.provider;
       this.user.email = data.email;
       this.user.idNumber = data.idNumber;
-      this.user.bank = data.bank;
+      this.user.bank = this.validateBank(data.bank) ? data.bank : this.user.bank;
       this.user.passportNumber = data.passportNumber;
       this.user.emailVerified = this.getUser.emailVerified;
       this.user.referenceNumber = data.referenceNumber;
@@ -129,7 +124,17 @@ export class DashboardComponent implements OnInit {
       this.user.estimates = data.estimates;
       
       this.createForm(this.user);
+      this.hasBankDetails(this.user);
     }); 
+  }
+
+  validateBank(bank: string): boolean{
+    var result = _.isEmpty(bank) || (bank === "Absa" || bank === "Capitec" || bank === "FNB" || bank === "Standard Bank" || bank === "Nedbank");
+    return result;
+  }
+
+  hasBankDetails(user: User){    
+    this.bankIsSelected = _.isEmpty(user.bank) || _.isUndefined(user.bank) ? false : true;
   }
 
   getRemainingDays(expiresIn: any): number{ 
@@ -152,8 +157,12 @@ export class DashboardComponent implements OnInit {
       let getSurname = this.user.name.split(" ")[1];
       return getSurname;
     } else {
-      return surname;
+      return surname.indexOf(" ") > -1 ? surname.split[1] : surname;
     }
+  }
+
+  userHasCellphone(cellphone: string): boolean{
+    return _.isEmpty(cellphone) || _.isNull(cellphone)  ? false : true;
   }
 
   ngOnInit() {

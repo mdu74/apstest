@@ -126,10 +126,10 @@
               </li>
               <li class="list-group-item">
                 <b>Cellphone</b>
-                <a *ngIf='user.cellphone != 0' class="float-right">
+                <a *ngIf='userHasCellphone(user.cellphone)' class="float-right">
                   {{user.cellphone}}
                 </a>
-                <a *ngIf='user.cellphone == 0' class="float-right">
+                <a *ngIf='!userHasCellphone(user.cellphone)' class="float-right">
                   You need to provide us with your cellphone number
                 </a>
               </li>
@@ -170,7 +170,7 @@
                 <div class="form-group" *ngIf="isPassport">
                     <label class="control-label">
                       <i class="fas fa-id-card"></i>Your passport number</label>
-                    <input formControlName="passport" type="text" class="form-control" ngModel="{{user.passportNumber}}" placeholder="Your cellphone number is?" pattern="[0-9]*" maxlength="13" numbersOnly/>
+                    <input formControlName="passport" type="text" class="form-control" ngModel="{{user.passportNumber}}" placeholder="Your passport number is?" pattern="[0-9]*" maxlength="13" numbersOnly/>
                 </div>
 
                 <div class="form-group">
@@ -193,7 +193,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-8" *ngIf = "bankIsSelected == true">
                       <select  class="form-control" formControlName="bank" ngModel="user.bank">
                         <option disabled>You want to change your account?</option>
                         <option *ngFor="let bank of banks" ngValue="{{bank}}">{{bank}}</option>
@@ -203,14 +203,15 @@
 
                   <span *ngIf = "bankIsSelected == false">
                     <select  class="form-control" formControlName="bank" ngModel="user.bank">
-                      <option disabled>Please choose a bank?</option>
+                      <option disabled>Please choose a bank</option>
                       <option *ngFor="let bank of banks" ngValue="{{bank}}">{{bank}}</option>
                     </select>
                   </span> 
-                </div>
+                </div>  
           </form>
   
-          <a (click)="goBackToDisplay()" class="btn btn-primary btn-block" style="color:#fff"><b>Go Back To Display Profile</b></a><a (click)="updateProfile(dashboardForm.value)" class="btn btn-primary btn-block" style="color:#fff"><b>Update Profile</b></a>
+          <a (click)="goBackToDisplay()" class="btn btn-primary btn-block" style="color:#fff"><b>Go Back To Display Profile</b></a>
+          <a (click)="updateProfile(dashboardForm.value)" class="btn btn-primary btn-block" style="color:#fff"><b>Update Profile</b></a>
           </div>
         </div>
         <!-- /.card-body -->

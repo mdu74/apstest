@@ -100,6 +100,19 @@ export class AuthenticationService {
     });
   }
 
+  forgotPassword(email: string){    
+    return new Promise<any>((resolve, reject) => {
+      this.afAuth.auth.sendPasswordResetEmail(email)
+      .then(res => {
+        window.alert('Password reset email sent, check your inbox.');
+        resolve(res);
+      }, err => {
+        window.alert("Password hasn't been reset");
+        reject(err);
+      })
+    })
+  }
+
   createUserIfItDoesNotExist(result: any, agreeToTerms: boolean){
     const usersRef = this.db.collection('users').doc(result.user.uid);
     usersRef.ref.get()

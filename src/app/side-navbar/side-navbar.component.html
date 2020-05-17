@@ -1,10 +1,8 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary aps-theme-nav elevation-4">
     <!-- Brand Logo -->
-    <a href="/home" class="brand-link">
-        <img src="assets/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-            style="opacity: .8">
-        <span class="brand-text font-weight-light">APS</span>
+    <a href="/home" class="brand-link" style="padding-left: 56px;">
+        <img src="assets/img/logoWhite.png" alt="" style="width: 100px; height: auto; padding-left: 10px;">
     </a>
 
     <!-- Sidebar -->
@@ -31,24 +29,30 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a routerLink="/clients" class="nav-link" routerLinkActive="active">
+                                <i class="fas fa-phone-alt nav-icon"></i>
+                                <p>Clients</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a routerLink="/ourContacts" class="nav-link" routerLinkActive="active">
                                 <i class="fas fa-phone-alt nav-icon"></i>
                                 <p>Our Contacts</p>
                             </a>
                         </li>
-                        <li class="nav-item register">
+                        <li *ngIf="canRegister && !isLoggedIn" id="registerUser" class="nav-item register">
                             <a routerLink="/register" class="nav-link" routerLinkActive="active">
                                 <i class="fas fa-pen-alt nav-icon"></i>
                                 <p>Register</p>
                             </a>
                         </li>
-                        <li class="nav-item sign-in">
+                        <li *ngIf="!isLoggedIn" class="nav-item sign-in">
                             <a routerLink="/signIn" class="nav-link" routerLinkActive="active">
                                 <i class="fas fa-sign-in-alt nav-icon"></i>
                                 <p>Sign In</p>
                             </a>
                         </li>
-                        <li class="nav-item log-out">
+                        <li *ngIf="isLoggedIn" class="nav-item log-out">
                             <a (click)="logout()" class="nav-link" routerLinkActive="active">
                                 <i class="fas fa-sign-out-alt nav-icon"></i>
                                 <p>Log Out</p>

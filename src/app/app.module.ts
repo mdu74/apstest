@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, NavigationEnd } from '@angular/router';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
@@ -30,6 +30,8 @@ import { HomeComponent } from './home/home.component';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 import { TermsAndConditionsComponent } from './register/terms-and-conditions/terms-and-conditions.component';
+import { ClientsComponent } from './clients/clients.component';
+import { ClientDetailsComponent } from './client-details/client-details.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import { TermsAndConditionsComponent } from './register/terms-and-conditions/ter
     MainContentComponent,
     RegisterComponent,
     NumbersOnlyDirective,
-    TermsAndConditionsComponent
+    TermsAndConditionsComponent,
+    ClientsComponent,
+    ClientDetailsComponent
   ],
   imports: [
     AppRoutingModule,
@@ -60,7 +64,9 @@ import { TermsAndConditionsComponent } from './register/terms-and-conditions/ter
     Ng5SliderModule,
     HttpClientModule,
     ToastrModule.forRoot(),
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes, {
+      onSameUrlNavigation: 'reload'
+    })
   ],
   exports: [RouterModule],
   providers: [AngularFirestoreModule],
