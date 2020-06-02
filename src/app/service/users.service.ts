@@ -17,7 +17,9 @@ export class UsersService {
   userEmail: string = "";
   userDataExists: boolean = false;
 
-  constructor(public db: AngularFirestore, private afs: AngularFireDatabase) { }
+  constructor(public db: AngularFirestore) {
+
+   }
 
   getCurrentUser() {
     return new Promise<any>((resolve, reject) => {
@@ -60,7 +62,9 @@ export class UsersService {
           amountInvested: _.isUndefined(data) ? "" : data.amountInvested,
           interestRate: _.isUndefined(data) ? "" : data.interestRate,
           transactions: _.isUndefined(data) ? "" : data.transactions,
-          newEstimateId: _.isUndefined(data) ? "" : data.newEstimateId
+          newEstimateId: _.isUndefined(data) ? "" : data.newEstimateId,
+          agreedToTerms: _.isUndefined(data) ? "" : data.agreedToTerms,
+          roles: _.isUndefined(data) ? "" : data.roles
         });
       });
     });

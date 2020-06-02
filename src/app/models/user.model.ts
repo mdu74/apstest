@@ -1,4 +1,5 @@
 import { Estimate } from './estimate.model';
+import { Roles } from './roles.model';
 
 export class User {
     uid: string;
@@ -19,6 +20,7 @@ export class User {
     newEstimateId: string;
     estimates: Estimate[];
     agreedToTerms: boolean;
+    roles : Roles;
 
     constructor() {
         this.uid = "";

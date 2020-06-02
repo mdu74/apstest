@@ -27,11 +27,11 @@ import { EstimatesComponent } from './estimates/estimates.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 import { TermsAndConditionsComponent } from './register/terms-and-conditions/terms-and-conditions.component';
 import { ClientsComponent } from './clients/clients.component';
 import { ClientDetailsComponent } from './client-details/client-details.component';
+import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
 
 @NgModule({
   declarations: [
@@ -56,6 +56,7 @@ import { ClientDetailsComponent } from './client-details/client-details.componen
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFirestoreModule,
+    AngularFireAuthGuardModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     BrowserAnimationsModule,
     BrowserModule,
@@ -69,7 +70,7 @@ import { ClientDetailsComponent } from './client-details/client-details.componen
     })
   ],
   exports: [RouterModule],
-  providers: [AngularFirestoreModule],
+  providers: [AngularFirestoreModule, AngularFireAuthGuardModule],
   bootstrap: [AppComponent]
 })
 

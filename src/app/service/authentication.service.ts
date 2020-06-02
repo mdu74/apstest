@@ -12,18 +12,18 @@ import { AngularFirestore } from '@angular/fire/firestore';
   providedIn: 'root'
 })
 
-export class AuthenticationService {
+export class AuthenticationService{
   user: User = new User;
+  user$: Observable<User>;
+  constructor(public afAuth: AngularFireAuth, public router: Router, private userService: UsersService, private db: AngularFirestore) { }
 
-  constructor(public afAuth: AngularFireAuth, public router: Router, private userService: UsersService, private db: AngularFirestore) {}
-
-  doFacebookAuth(agreedToTerms: boolean){
+  doFacebookAuth(agreedToTerms: boolean) {
     return new Promise<any>((resolve, reject) => {
       let provider = new firebase.auth.FacebookAuthProvider();
       this.afAuth.auth
       .signInWithPopup(provider)
-      .then(result => {        
-        this.createUserIfItDoesNotExist(result, agreedToTerms);       
+      .then(result => {
+        this.createUserIfItDoesNotExist(result, agreedToTerms);
         resolve(result);
       }, err => {
         console.log(err);
@@ -40,7 +40,7 @@ export class AuthenticationService {
       this.afAuth.auth
       .signInWithPopup(provider)
       .then(result => {
-        this.createUserIfItDoesNotExist(result, agreedToTerms);        
+        this.createUserIfItDoesNotExist(result, agreedToTerms);
         resolve(result);
       }, err => {
         console.log(err);
@@ -50,28 +50,28 @@ export class AuthenticationService {
   }
 
   doRegister(value){
-    return new Promise<any>((resolve, reject) => {
+    return new Promise<any>((resolve, reject)=>{
       firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
-      .then(result => { 
-        this.createUserIfItDoesNotExist(result, value.agreedToTerms); 
-        this.sendVerificationMail();
-        resolve(result);
-      }, err => {
-        reject(err);
-      })
+        .then(result => {
+          this.createUserIfItDoesNotExist(result, value.agreedToTerms);
+          this.sendVerificationMail();
+          resolve(result);
+        }, err => {
+          reject(err);
+        })
     })
   }
 
-  sendVerificationMail() {
+  sendVerificationMail(){
     return new Promise<any>((resolve, reject) => {
-      firebase.auth().currentUser.sendEmailVerification().then(()=>{
+      firebase.auth().currentUser.sendEmailVerification().then(() => {
         this.router.navigate(['/dashboard']);
       });
     });
   }
 
-  isLoggedIn() {
-    return this.afAuth.authState.pipe(first()).toPromise();  
+  isLoggedIn(){
+    return this.afAuth.authState.pipe(first()).toPromise();
   }
 
   doLogin(value){
@@ -80,27 +80,28 @@ export class AuthenticationService {
       .then(res => {
         resolve(res);
       }, err => {
-        reject(err)})
+        reject(err)
+      })
     })
   }
 
   doLogout(){
     return new Promise((resolve, reject) => {
-      if(firebase.auth().currentUser){
-        this.afAuth.auth.signOut().then(()=>{
+      if (firebase.auth().currentUser) {
+        this.afAuth.auth.signOut().then(() => {
           localStorage.clear();
           window.location.reload();
           this.router.navigate(['/signIn']);
         });
         resolve();
       }
-      else{
+      else {
         reject();
       }
     });
   }
 
-  forgotPassword(email: string){    
+  forgotPassword(email: string) {
     return new Promise<any>((resolve, reject) => {
       this.afAuth.auth.sendPasswordResetEmail(email)
       .then(res => {
@@ -113,19 +114,19 @@ export class AuthenticationService {
     })
   }
 
-  createUserIfItDoesNotExist(result: any, agreeToTerms: boolean){
+  createUserIfItDoesNotExist(result: any, agreeToTerms: boolean) {
     const usersRef = this.db.collection('users').doc(result.user.uid);
     usersRef.ref.get()
       .then((docSnapshot) => {
         if (!docSnapshot.exists) {
           let user = this.setUserData(result);
-          this.userService.createUser(user);                     
-        } 
-    });
+          this.userService.createUser(user);
+        }
+      });
   }
-  
-  setUserData(res: any): any{
-    let user = {uid: "", name: "", surname: "", email: "", cellphone: "", image: "", referenceNumber: "", agreedToTerms: false};
+
+  setUserData(res: any): any {
+    let user = { uid: "", name: "", surname: "", email: "", cellphone: "", image: "", referenceNumber: "", agreedToTerms: false, roles: { client: true } };
 
     user.uid = res.user.uid;
     user.name = /\s/.test(res.user.displayName) ? res.user.displayName.split(" ")[0] : res.user.displayName;
@@ -135,14 +136,28 @@ export class AuthenticationService {
     user.image = res.user.photoURL;
     user.referenceNumber = this.generateReferenceNumber(user.email, res.user.providerData[0].providerId);
     user.agreedToTerms = res.user.agreedToTerms;
-
     return user;
   }
 
-  generateReferenceNumber(email: string, providerType: string): string{
+  generateReferenceNumber(email: string, providerType: string): string {
     let splitEmail = email.split("@");
-    let referenceNumber = splitEmail[0].substring(0, 3).toUpperCase() + providerType.substring(0, 3).toUpperCase() + Math.floor(100 + Math.random() * 500).toString();  
-    
+    let referenceNumber = splitEmail[0].substring(0, 3).toUpperCase() + providerType.substring(0, 3).toUpperCase() + Math.floor(100 + Math.random() * 500).toString();
+
     return referenceNumber;
-  }  
+  }
+
+  isAdmin(): Promise<boolean | void> {
+    let isAdmin = false;
+    return firebase.auth().currentUser.getIdTokenResult()
+    .then(idTokenResult => {
+      if (idTokenResult.claims.admin) {
+        isAdmin = true;
+        return isAdmin;
+      }
+      return isAdmin;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
 }
