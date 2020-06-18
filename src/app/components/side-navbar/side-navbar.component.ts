@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../service/authentication.service';
-import { UsersService } from '../service/users.service';
+import { AuthenticationService } from '../../service/authentication.service';
+import { UsersService } from '../../service/users.service';
 import { Router, ActivatedRoute, NavigationEnd  } from '@angular/router';
 import Swal from 'sweetalert2';
 import * as _ from "lodash";
@@ -27,7 +27,7 @@ export class SideNavbarComponent implements OnInit {
     
     this.router.navigateByUrl('/dashboard', { skipLocationChange: true }).then(() => {
       console.log("Test: ", this.router.navigate(['dashboard']));
-      this.router.navigate(['side-navbar']);
+      this.router.navigate(['dashboard']);
     }); 
     // setTimeout(() => {
     //   let registerNavBar = document.getElementById("registerUser");

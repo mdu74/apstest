@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { UsersService } from '../service/users.service';
-import { EstimatesService } from '../service/estimates.service';
+import { UsersService } from '../../service/users.service';
+import { EstimatesService } from '../../service/estimates.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { User } from '../models/user.model';
-import { Estimate } from '../models/estimate.model';
+import { User } from '../../models/user.model';
+import { Estimate } from '../../models/estimate.model';
 import { Options } from 'ng5-slider';
 import * as _ from "lodash";
 import Swal from 'sweetalert2';

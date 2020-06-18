@@ -7,4 +7,5 @@ export class Estimate {
     createdOn: string;
     expiryDate: string;
     expiresIn: number;
+    paidFor: boolean;
 }

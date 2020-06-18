@@ -64,7 +64,8 @@ export class AuthenticationService {
 
   sendVerificationMail() {
     return new Promise<any>((resolve, reject) => {
-      firebase.auth().currentUser.sendEmailVerification().then(()=>{
+      firebase.auth().onAuthStateChanged((user)=>{
+        console.log("Email is verified: ", user.emailVerified);
         this.router.navigate(['/dashboard']);
       });
     });
@@ -115,6 +116,7 @@ export class AuthenticationService {
 
   createUserIfItDoesNotExist(result: any, agreeToTerms: boolean){
     const usersRef = this.db.collection('users').doc(result.user.uid);
+    
     usersRef.ref.get()
       .then((docSnapshot) => {
         if (!docSnapshot.exists) {

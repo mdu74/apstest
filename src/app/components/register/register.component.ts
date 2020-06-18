@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../service/authentication.service';
-import { NotificationService } from '../service/notification.service';
-import { UsersService } from '../service/users.service';
+import { AuthenticationService } from '../../service/authentication.service';
+import { NotificationService } from '../../service/notification.service';
+import { UsersService } from '../../service/users.service';
 
 import { Router, Params } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -21,8 +21,6 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private authenticationService: AuthenticationService,
-    private notificationService: NotificationService,
-    private usersService: UsersService,
     private router: Router,
     private formBuilder: FormBuilder
   ) { 
