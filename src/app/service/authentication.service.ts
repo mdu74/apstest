@@ -116,6 +116,7 @@ export class AuthenticationService{
 
   createUserIfItDoesNotExist(result: any, agreeToTerms: boolean) {
     const usersRef = this.db.collection('users').doc(result.user.uid);
+    
     usersRef.ref.get()
       .then((docSnapshot) => {
         if (!docSnapshot.exists) {

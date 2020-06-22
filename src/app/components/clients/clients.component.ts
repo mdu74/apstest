@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { UsersService } from '../service/users.service';
+import { UsersService } from '../../service/users.service';
 import { AngularFireList } from '@angular/fire/database';
-import { User } from '../models/user.model';
+import { User } from '../../models/user.model';
 import * as _ from 'lodash';
+import * as firebase from 'firebase';
 
 
 @Component({
@@ -18,6 +19,10 @@ export class ClientsComponent implements OnInit {
 
   ngOnInit(): void {   
     console.log("Get all users");
+    
+    var authUser = firebase.auth().currentUser;
+    console.log("Auth User: ", authUser);
+    
     this.usersService.getUsers().subscribe(result => {
       this.users = result.map(r =>{
         return {
@@ -34,6 +39,7 @@ export class ClientsComponent implements OnInit {
           transactions: r.payload.doc.data()['transactions']
         };
       });
+      console.log(this.users[0].uid);
       console.log(this.users[0].name);
       console.log(this.users[0].surname);
     });

@@ -17,20 +17,21 @@ import { Ng5SliderModule } from 'ng5-slider';
 import { AppRoutingModule, appRoutes } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { TopNavbarComponent } from './top-navbar/top-navbar.component';
-import { SideNavbarComponent } from './side-navbar/side-navbar.component';
-import { MainFooterComponent } from './main-footer/main-footer.component';
-import { MainContentComponent } from './main-content/main-content.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { OurContactsComponent } from './our-contacts/our-contacts.component';
-import { EstimatesComponent } from './estimates/estimates.component';
-import { SignInComponent } from './sign-in/sign-in.component';
-import { RegisterComponent } from './register/register.component';
-import { HomeComponent } from './home/home.component';
+import { TopNavbarComponent } from './components/top-navbar/top-navbar.component';
+import { SideNavbarComponent } from './components/side-navbar/side-navbar.component';
+import { MainFooterComponent } from './components/main-footer/main-footer.component';
+import { MainContentComponent } from './components/main-content/main-content.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { OurContactsComponent } from './components/our-contacts/our-contacts.component';
+import { EstimatesComponent } from './components/estimates/estimates.component';
+import { SignInComponent } from './components/sign-in/sign-in.component';
+import { RegisterComponent } from './components/register/register.component';
+import { HomeComponent } from './components/home/home.component';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { NumbersOnlyDirective } from './directives/numbers-only.directive';
-import { TermsAndConditionsComponent } from './register/terms-and-conditions/terms-and-conditions.component';
-import { ClientsComponent } from './clients/clients.component';
-import { ClientDetailsComponent } from './client-details/client-details.component';
+import { TermsAndConditionsComponent } from './components/register/terms-and-conditions/terms-and-conditions.component';
+import { ClientsComponent } from './components/clients/clients.component';
+import { ClientDetailsComponent } from './components/client-details/client-details.component';
 import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
 
 @NgModule({

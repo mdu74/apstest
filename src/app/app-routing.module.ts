@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardService } from './service/dashboard.service';
+import { AuthGuard } from './core/auth.guard';
 import { AngularFireAuthGuard, hasCustomClaim } from '@angular/fire/auth-guard';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { OurContactsComponent } from './our-contacts/our-contacts.component';
-import { EstimatesComponent } from './estimates/estimates.component';
-import { ClientsComponent } from './clients/clients.component';
-import { SignInComponent } from './sign-in/sign-in.component';
-import { RegisterComponent } from './register/register.component';
-import { HomeComponent } from './home/home.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { OurContactsComponent } from './components/our-contacts/our-contacts.component';
+import { EstimatesComponent } from './components/estimates/estimates.component';
+import { ClientsComponent } from './components/clients/clients.component';
+import { SignInComponent } from './components/sign-in/sign-in.component';
+import { RegisterComponent } from './components/register/register.component';
+import { HomeComponent } from './components/home/home.component';
+import { ClientDetailsComponent } from './components/client-details/client-details.component';
 
 const adminOnly = () => hasCustomClaim('admin');
 export const appRoutes: Routes = [
@@ -18,6 +20,7 @@ export const appRoutes: Routes = [
   { path: 'estimates', component: EstimatesComponent, resolve: { data: DashboardService} },
   { path: 'ourContacts', component: OurContactsComponent },
   { path: 'clients', component: ClientsComponent, canActivate: [AngularFireAuthGuard] , data: { authGuardPipe: adminOnly }},
+  { path: 'clients/clientDetails/:uid', component: ClientDetailsComponent },
   { path: 'signIn', component: SignInComponent },
   { path: 'register', component: RegisterComponent }
 ];

@@ -1,0 +1,9 @@
+.paid{
+    font-size: 22px;
+    color: #28a745;
+}
+
+.pending{
+    font-size: 22px;
+    color: #dc3545;
+}

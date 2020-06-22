@@ -41,31 +41,32 @@ export class UsersService {
 
   getUserProfile(userId: string): Observable<any> {
     let userRef = firebase.firestore().collection('users');
+    var authUser = firebase.auth().currentUser;
 
     return new Observable((observer) => {
       userRef.doc(userId).get().then((doc) => {
         let data = doc.data();         
-        console.log("Get user profile observer: ", data);
-        observer.next({
-          uid: doc.id,
-          name: _.isUndefined(data) || _.isUndefined(data.name) ? "" : data.name,
-          surname: _.isUndefined(data) ? "" : data.surname,
-          email: _.isUndefined(data) ? "" :  data.email,
-          emailVerified: _.isUndefined(data) ? "" : data.emailVerified,
-          cellphone: _.isUndefined(data) ? "" : data.cellphone,
-          image: _.isUndefined(data) ? "" : data.image,
-          referenceNumber: _.isUndefined(data) ? "" : data.referenceNumber,
-          passportNumber: _.isUndefined(data) ? "" : data.passport,
-          idNumber: _.isUndefined(data) ? "" : data.idnumber,
-          bank: _.isUndefined(data) ? "" : data.bank,
-          investmentReturns: _.isUndefined(data) ? "" : data.investmentReturns,
-          amountInvested: _.isUndefined(data) ? "" : data.amountInvested,
-          interestRate: _.isUndefined(data) ? "" : data.interestRate,
-          transactions: _.isUndefined(data) ? "" : data.transactions,
-          newEstimateId: _.isUndefined(data) ? "" : data.newEstimateId,
-          agreedToTerms: _.isUndefined(data) ? "" : data.agreedToTerms,
-          roles: _.isUndefined(data) ? "" : data.roles
-        });
+        
+        if (!_.isUndefined(data)) {
+          observer.next({
+            uid: doc.id,
+            name: data.name,
+            surname: data.surname,
+            email: authUser.email,
+            emailVerified: _.isEmpty(data.emailVerified) || _.isUndefined(data.emailVerified) ? authUser.emailVerified : data.emailVerified,
+            cellphone: data.cellphone,
+            image: _.isEmpty(data.image) || _.isUndefined(data.image) ? authUser.photoURL : data.image,
+            referenceNumber: data.referenceNumber,
+            passportNumber: data.passport,
+            idNumber: data.idnumber,
+            bank: data.bank,
+            investmentReturns: data.investmentReturns,
+            amountInvested: data.amountInvested,
+            interestRate: data.interestRate,
+            transactions: data.transactions,
+            newEstimateId: data.newEstimateId
+          });
+        }
       });
     });
   }  

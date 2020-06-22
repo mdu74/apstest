@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { UsersService } from '../service/users.service';
-import { EstimatesService } from '../service/estimates.service';
-import { AuthenticationService } from '../service/authentication.service';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { UsersService } from '../../service/users.service';
+import { EstimatesService } from '../../service/estimates.service';
+import { AuthenticationService } from '../../service/authentication.service';
+import { Router, ActivatedRoute , NavigationEnd} from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { User } from '../models/user.model';
-import { Estimate } from '../models/estimate.model';
+import { User } from '../../models/user.model';
+import { Estimate } from '../../models/estimate.model';
 import Swal from 'sweetalert2';
 import * as _ from "lodash";
 import * as moment from 'moment';
@@ -52,12 +52,15 @@ export class DashboardComponent implements OnInit {
       this.getUser = data;        
     });
 
-    this.isVerified = this.getUser.emailVerified;
-    this.getUserProfile();
-    this.getBankClass();
+    this.isVerified = this.getUser.emailVerified;    
+    this.getBankClass();    
   }
 
-  getBankClass() {
+  ngOnInit() {
+    this.getUserProfile();
+  }
+
+  getBankClass(){
     if (this.user.bank === "Absa") {
       return "absa";
     } else if (this.user.bank === "Capitec") {
@@ -122,6 +125,7 @@ export class DashboardComponent implements OnInit {
       this.user.newEstimateId = data.newEstimateId;
       this.user.transactions = this.countEstimates();
       this.user.estimates = data.estimates;
+      console.log("User profile: ", this.user);
       this.createForm(this.user);
       this.hasBankDetails(this.user);
     });
@@ -163,23 +167,19 @@ export class DashboardComponent implements OnInit {
   userHasCellphone(cellphone: string): boolean {
     return _.isEmpty(cellphone) || _.isNull(cellphone) ? false : true;
   }
-
-  ngOnInit() {
-  }
-
+  
   createForm(user: User) {
     this.dashboardForm = this.formBuilder.group({
-      uid: user.uid,
-      name: [this.getName(user.name), Validators.required],
-      surname: [this.getSurname(user.surname), Validators.required],
-      idnumber: [user.idNumber, Validators.required],
+      name: [this.getName(user.name), [Validators.required]],
+      surname: [this.getSurname(user.surname), [Validators.required]],
+      idnumber: [user.idNumber, [Validators.required]],
       image: user.image,
       provider: user.provider,
       bank: user.bank,
       email: user.email,
       emailVerified: user.emailVerified,
-      passport: [user.passportNumber, Validators.required],
-      cellphone: [user.cellphone, Validators.required],
+      passport: [user.passportNumber, [Validators.required]],
+      cellphone: [user.cellphone, [Validators.required]],
       transactions: user.transactions,
       referenceNumber: user.referenceNumber,
       estimates: user.estimates
