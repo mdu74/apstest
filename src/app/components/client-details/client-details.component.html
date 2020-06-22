@@ -1,3 +1,5 @@
+
+
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
@@ -60,43 +62,42 @@
             <table class="table">
               <thead>
                 <tr>
+                  <th>Estimate ID</th>
                   <th>Created On</th>
                   <th>Amount Invested</th>
                   <th>Interest Rate</th>
                   <th>Investment Returns</th>
-                  <th>Has Been Paid For</th>
+                  <th>Days Left</th>
+                  <th>Expiry Date</th>
+                  <th>Has Been Paid For</th>            
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let estimate in estimates">
+                <tr *ngFor="let estimate of estimates">
+                  <td>{{estimate.estimateId}}</td>
                   <td>{{estimate.createdOn}}</td>
                   <td>{{estimate.amountInvested}}</td>
                   <td>{{estimate.interestRate}}</td>
                   <td>{{estimate.investmentReturns}}</td>
+                  <td>{{estimate.expiresIn}}</td>
+                  <td>{{estimate.expiryDate}}</td>
                   <td>
-                    <span *ngIf="estimate.paidFor">
+                    <div *ngIf="estimate.paidFor else elseBlock"><span
+                        *ngIf="estimate.paidFor">
+                        <i class="far fa-times-circle paid"></i>
+                      </span></div>
+                    <ng-template #elseBlock> <span>
+                        <i class="far fa-times-circle pending"></i>
+                      </span></ng-template>
+                    <!-- <span *ngIf="estimate.paidFor">
                       <i
                         [ngClass]="(estimate.paidFor) ? 'far fa-times-circle paid' : 'far fa-times-circle pending'"></i>
-                    </span>
+                    </span> -->
                   </td>
                   <td class="text-right py-0 align-middle">
                     <div class="btn-group btn-group-sm">
-                      <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                      <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2020/09/21</td>
-                  <td>123</td>
-                  <td>39%</td>
-                  <td>234</td>
-                  <td>
-                    <i [ngClass]="(true)?'far fa-check-circle paid':'far fa-times-circle pending'"></i>
-                  </td>
-                  <td class="text-right py-0 align-middle">
-                    <div class="btn-group btn-group-sm">
-                      <a href="#" class="btn btn-info" data-toggle="modal" data-target="#editEstimatesModal"><i class="fas fa-eye"></i></a>
+                      <a href="#" class="btn btn-info" (click)="estimateSelected(estimate.estimateId)" data-toggle="modal" data-target="#editEstimatesModal"><i
+                          class="fas fa-eye"></i></a>
 
                       <!-- Button trigger modal
                       <button type="button" class="btn btn-primary" data-toggle="modal"
@@ -116,16 +117,36 @@
                               </button>
                             </div>
                             <div class="modal-body">
-                              ...
+                              <form [formGroup]="estimateDetailsForm">
+                                <div class="row">
+                                  <div class="col-md-4">
+                                    Estimate expires in 
+                                  </div>                                 
+                                  <div class="col-md-5">                                 
+                                    <input formControlName="expiresIn" type="number" class="form-control" ngModel="{{estimate.expiresIn}}"> <span>days</span>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-4">
+                                   Change paid status 
+                                  </div>
+                                   <div class="col-md-4">
+                                    <select formControlName="paidFor" class="form-control" [ngModel]="estimate.paidFor" >
+                                      <option disabled> {{estimate.paidFor}}</option>
+                                      <option *ngFor="let status of paidStatus | keyvalue" [value]="status.value" [selected]="status.key">{{status.key}}</option>
+                                    </select> 
+                                  </div>                                 
+                                </div>                                            
+                              </form>
+                                                                                               
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                              <button type="button" class="btn btn-success">Save changes</button>
+                              <button type="button" class="btn btn-success" data-dismiss="modal" (click)="updateEstimate(estimate.estimateId, estimateDetailsForm.value)">Save changes</button>
                             </div>
                           </div>
                         </div>
                       </div>
-
                       <a (click)="deleteEstimate(estimate.estimateId)" class="btn btn-danger"><i
                           class="fas fa-trash"></i></a>
                     </div>
@@ -141,7 +162,7 @@
     </div>
     <div class="row">
       <div class="col-12">
-        <a href="#" class="btn btn-secondary">Cancel</a>
+        <a href="#" class="btn btn-secondary" routerLink="/clients">Cancel</a>
         <input type="submit" value="Save Changes" class="btn btn-success float-right">
       </div>
     </div>

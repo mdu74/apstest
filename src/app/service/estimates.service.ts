@@ -20,6 +20,10 @@ export class EstimatesService {
     let estimates = this.db.collection<Estimate>("estimates");
     return estimates;
   }
+
+  getEstimateById(estimateId: string){
+    return this.db.collection<Estimate>("estimates").doc(estimateId).get();
+  }
   
   createEstimate(estimate: any) { 
     return this.db.collection("estimates").add(estimate);
@@ -31,5 +35,9 @@ export class EstimatesService {
 
   updateEstimate(estimateId: string){
     return this.db.collection<Estimate>('estimates').doc(estimateId).update({ "estimateId": estimateId });
+  }
+
+  updateEstimateDetails(estimateId: string, value: any){
+    return this.db.collection<Estimate>('estimates').doc(estimateId).set(value);
   }
 }
