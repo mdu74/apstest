@@ -1,5 +1,3 @@
-
-
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
@@ -62,19 +60,19 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th>Estimate ID</th>
+                  <!-- <th>Estimate ID</th> -->
                   <th>Created On</th>
                   <th>Amount Invested</th>
                   <th>Interest Rate</th>
                   <th>Investment Returns</th>
                   <th>Days Left</th>
                   <th>Expiry Date</th>
-                  <th>Has Been Paid For</th>            
+                  <th>Paid For</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let estimate of estimates">
-                  <td>{{estimate.estimateId}}</td>
+                  <!-- <td>{{estimate.estimateId}}</td> -->
                   <td>{{estimate.createdOn}}</td>
                   <td>{{estimate.amountInvested}}</td>
                   <td>{{estimate.interestRate}}</td>
@@ -82,22 +80,17 @@
                   <td>{{estimate.expiresIn}}</td>
                   <td>{{estimate.expiryDate}}</td>
                   <td>
-                    <div *ngIf="estimate.paidFor else elseBlock"><span
-                        *ngIf="estimate.paidFor">
+                    <div *ngIf="estimate.paidFor else elseBlock"><span *ngIf="estimate.paidFor">
                         <i class="far fa-times-circle paid"></i>
                       </span></div>
                     <ng-template #elseBlock> <span>
                         <i class="far fa-times-circle pending"></i>
                       </span></ng-template>
-                    <!-- <span *ngIf="estimate.paidFor">
-                      <i
-                        [ngClass]="(estimate.paidFor) ? 'far fa-times-circle paid' : 'far fa-times-circle pending'"></i>
-                    </span> -->
                   </td>
                   <td class="text-right py-0 align-middle">
                     <div class="btn-group btn-group-sm">
-                      <a href="#" class="btn btn-info" (click)="estimateSelected(estimate.estimateId)" data-toggle="modal" data-target="#editEstimatesModal"><i
-                          class="fas fa-eye"></i></a>
+                      <a href="#" class="btn btn-info" (click)="estimateSelected(estimate.estimateId)"
+                        data-toggle="modal" data-target="#editEstimatesModal"><i class="fas fa-eye"></i></a>
 
                       <!-- Button trigger modal
                       <button type="button" class="btn btn-primary" data-toggle="modal"
@@ -110,45 +103,50 @@
                         aria-labelledby="editEstimatesModalTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                           <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="editEstimatesModalTitle">Edit Estimates</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div class="modal-body">
-                              <form [formGroup]="estimateDetailsForm">
-                                <div class="row">
-                                  <div class="col-md-4">
-                                    Estimate expires in 
-                                  </div>                                 
-                                  <div class="col-md-5">                                 
-                                    <input formControlName="expiresIn" type="number" class="form-control" ngModel="{{estimate.expiresIn}}"> <span>days</span>
+                            <form [formGroup]="editEstimateForm"
+                              (ngSubmit)="updateEstimate(editEstimateForm.value)">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="editEstimatesModalTitle">Edit Estimates</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+
+                                <div class="input-group mb-3">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">Expires In</span>
+                                  </div>
+                                  <input type="number" class="form-control" formControlName="estimate.expiresIn" aria-label="Default"
+                                    aria-describedby="inputGroup-sizing-default">
+                                  <div class="input-group-append">
+                                    <span class="input-group-text" id="">Days</span>
                                   </div>
                                 </div>
                                 <div class="row">
-                                  <div class="col-md-4">
-                                   Change paid status 
+                                  <div class="col-4">
+                                    <div class="">Has Been Paid For</div>
                                   </div>
-                                   <div class="col-md-4">
-                                    <select formControlName="paidFor" class="form-control" [ngModel]="estimate.paidFor" >
-                                      <option disabled> {{estimate.paidFor}}</option>
-                                      <option *ngFor="let status of paidStatus | keyvalue" [value]="status.value" [selected]="status.key">{{status.key}}</option>
-                                    </select> 
-                                  </div>                                 
-                                </div>                                            
-                              </form>
-                                                                                               
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                              <button type="button" class="btn btn-success" data-dismiss="modal" (click)="updateEstimate(estimate.estimateId, estimateDetailsForm.value)">Save changes</button>
-                            </div>
+                                  <div class="col-8">
+                                    <label class="switch">
+                                      <input type="checkbox" formControlName = "paidFor">
+                                      <span class="slider round"></span>
+                                    </label></div>
+                                </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success" data-dismiss="modal">
+                                  Update Estimate
+                                </button>
+                              </div>
+                            </form>
                           </div>
                         </div>
                       </div>
-                      <a (click)="deleteEstimate(estimate.estimateId)" class="btn btn-danger"><i
-                          class="fas fa-trash"></i></a>
+                      <a (click)="deleteEstimate(estimate.estimateId)" class="btn btn-danger">
+                        <i class="fas fa-trash"></i>
+                      </a>
                     </div>
                   </td>
                 </tr>

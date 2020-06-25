@@ -9,6 +9,8 @@ import { Estimate } from '../../models/estimate.model';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+
 declare var $: any;
 @Component({
   selector: 'app-client-details',
@@ -24,16 +26,17 @@ export class ClientDetailsComponent implements OnInit {
   approvedEstimates: Estimate[] = [];
   paidStatus: {[key: string]: boolean}
   estimateDetailsForm: FormGroup;
+  editEstimateForm: FormGroup;
 
-  constructor(private usersService: UsersService, private estimatesService: EstimatesService, private route: ActivatedRoute) { }
+  constructor(private usersService: UsersService, private estimatesService: EstimatesService, private route: ActivatedRoute, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
 
     this.paidStatus = {
       "Approved" : true, 
       "Pending" : false, 
-
     };      
+
     this.createEstimateDetailsForm();
     this.route.params.subscribe( params => this.userId = params.uid );
     
@@ -42,9 +45,8 @@ export class ClientDetailsComponent implements OnInit {
       console.log("Client details: ", this.user);
     });
 
-  
-
     this.getEstimatesByUser(this.userId);
+
     _.forEach((estimate: Estimate)=>{
       if (estimate.paidFor) {        
         this.pendingEstimates.push(estimate);
@@ -93,39 +95,9 @@ export class ClientDetailsComponent implements OnInit {
     this.estimates.length = 0;
   }
 
-  updateEstimate(estimateId: string, estimateData: any){
-    
-    let newExpiresIn = this.estimateDetailsForm.value.expiresIn;
-    let paidFor = this.estimateDetailsForm.value.paidFor;
-    let newExpiryDate = "";
-    for(let estimate of this.estimates){
-      if(estimate.estimateId === estimateId){
-        this.estimate = estimate;
-        let oldExpiresIn = this.estimate.expiresIn;
-        let expiryDate = new Date(this.estimate.expiryDate);
-        //console.log('expirydate is', expiryDate);
-        expiryDate.setDate( expiryDate.getDate() + newExpiresIn - oldExpiresIn);
-        //console.log('new date is', expiryDate);
-        newExpiryDate = expiryDate.toISOString();
-       // console.log('local date is', expiryDate);
-
-      }
-    }
-    estimateData.amountInvested = this.estimate.amountInvested;
-    estimateData.interestRate = this.estimate.interestRate;
-    estimateData.userId = this.estimate.userId;
-    estimateData.createdOn = this.estimate.createdOn;
-
-
-    if(newExpiryDate > this.estimate.expiryDate){
-      estimateData.expiryDate = newExpiryDate;
-    }
-    else{
-      estimateData.expiryDate = this.estimate.expiryDate;
-    }
-    this.estimatesService.updateEstimateDetails(estimateId, estimateData);
-    this.estimates.length = 0;
-
+  updateEstimate(estimate: any){
+    debugger;
+    console.log("Update estimate: ", estimate);
   }
  
   createEstimateDetailsForm() {
@@ -152,6 +124,16 @@ export class ClientDetailsComponent implements OnInit {
           estimate.paidFor = data.paidFor;
           this.estimate = estimate;
         console.log("real estimate is",this.estimate);
+        
+      // this.editEstimateForm = this.formBuilder.group({ 
+      //   expiresIn : [this.estimate.expiresIn],
+      //   paidFor: [this.estimate.paidFor]
+      // });
+
+      this.editEstimateForm = new FormGroup({
+        expiresIn: new FormControl(this.estimate.expiresIn),
+        paidFor: new FormControl(this.estimate.paidFor)
+     });
 
     })
     console.log("outside estimate is",this.estimate);

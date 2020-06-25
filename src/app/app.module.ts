@@ -32,6 +32,7 @@ import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 import { TermsAndConditionsComponent } from './components/register/terms-and-conditions/terms-and-conditions.component';
 import { ClientsComponent } from './components/clients/clients.component';
 import { ClientDetailsComponent } from './components/client-details/client-details.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { ClientDetailsComponent } from './components/client-details/client-detai
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
+    NgbModule,
     Ng5SliderModule,
     HttpClientModule,
     ToastrModule.forRoot(),
