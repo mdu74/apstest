@@ -38,6 +38,6 @@ export class EstimatesService {
   }
 
   updateEstimateDetails(estimateId: string, value: any){
-    return this.db.collection<Estimate>('estimates').doc(estimateId).set(value);
+    return this.db.collection<Estimate>('estimates').doc(estimateId).set(Object.assign({}, value));
   }
 }
