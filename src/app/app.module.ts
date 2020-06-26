@@ -33,6 +33,8 @@ import { TermsAndConditionsComponent } from './components/register/terms-and-con
 import { ClientsComponent } from './components/clients/clients.component';
 import { ClientDetailsComponent } from './components/client-details/client-details.component';
 import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+declare var $: any;
 
 @NgModule({
   declarations: [
@@ -63,6 +65,7 @@ import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
+    NgbModule,
     Ng5SliderModule,
     HttpClientModule,
     ToastrModule.forRoot(),
