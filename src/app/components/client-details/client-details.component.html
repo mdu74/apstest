@@ -102,7 +102,7 @@
                       <div class="modal fade" id="editEstimatesModal" tabindex="-1" role="dialog"
                         aria-labelledby="editEstimatesModalTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
-                          <div class="modal-content">
+                          <div *ngIf="editEstimateForm" class="modal-content">
                             <form [formGroup]="editEstimateForm"
                               (ngSubmit)="updateEstimate(editEstimateForm.value)">
                               <div class="modal-header">
@@ -117,7 +117,7 @@
                                   <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputGroup-sizing-default">Expires In</span>
                                   </div>
-                                  <input type="number" class="form-control" formControlName="estimate.expiresIn" aria-label="Default"
+                                  <input type="number" class="form-control" formControlName="expiresIn" aria-label="Default"
                                     aria-describedby="inputGroup-sizing-default">
                                   <div class="input-group-append">
                                     <span class="input-group-text" id="">Days</span>

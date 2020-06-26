@@ -4,6 +4,7 @@ import { EstimatesService } from '../../service/estimates.service';
 import { User } from '../../models/user.model';
 import * as moment from 'moment';
 import * as _ from 'lodash';
+import * as $ from 'jquery';
 import * as firebase from 'firebase';
 import { Estimate } from '../../models/estimate.model';
 import { ActivatedRoute } from '@angular/router';
@@ -11,7 +12,6 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
-declare var $: any;
 @Component({
   selector: 'app-client-details',
   templateUrl: './client-details.component.html',
@@ -42,7 +42,6 @@ export class ClientDetailsComponent implements OnInit {
     
     this.usersService.getUserProfile(this.userId).subscribe(result => { 
       this.user = result;
-      console.log("Client details: ", this.user);
     });
 
     this.getEstimatesByUser(this.userId);
@@ -54,19 +53,12 @@ export class ClientDetailsComponent implements OnInit {
         this.approvedEstimates.push(estimate);
       }
     });
-
-    console.log("Pending Estimates: ", this.pendingEstimates);
-    console.log("Approved Estimates: ", this.approvedEstimates);
-    console.log("Estimates: ", this.estimates);
   }
 
-  getEstimatesByUser(userId: string){
-  
+  getEstimatesByUser(userId: string){  
     this.estimatesService.getEstimatesByUser(userId).onSnapshot((querySnapshot)=>{
       querySnapshot.forEach((estimateDoc)=>{
         let data = estimateDoc.data();
-        console.log( "data is ",data);
-
         let estimate = new Estimate;
         
         estimate.estimateId =  _.isEmpty(estimateDoc.id) || _.isUndefined(estimateDoc.id) ? this.user.newEstimateId : estimateDoc.id;
@@ -104,41 +96,30 @@ export class ClientDetailsComponent implements OnInit {
     this.estimateDetailsForm = new FormGroup({
       expiresIn: new FormControl(''),
       paidFor: new FormControl(''),
-  });
+    });
   }
 
   estimateSelected(estimateId: string){
     this.estimatesService.getEstimateById(estimateId).subscribe((querySnapshot)=>{
-      console.log("id is",estimateId);
-
       let data = querySnapshot.data();
-          let estimate = new Estimate;      
-          estimate.estimateId =  _.isEmpty(estimateId) || _.isUndefined(estimateId) ? this.user.newEstimateId : estimateId;
-          estimate.amountInvested = _.isUndefined(data.amountInvested) || _.isNull(data.amountInvested) ? 0 : data.amountInvested;
-          estimate.interestRate = _.isUndefined(data.interestRate) || _.isNull(data.interestRate) ? 0 : data.interestRate;
-          estimate.investmentReturns = _.isUndefined(data.investmentReturns) || _.isNull(data.investmentReturns) ? 0 : data.investmentReturns;
-          estimate.createdOn = data.createdOn;
-          estimate.expiryDate = data.expiryDate;
-          estimate.expiresIn = this.getRemainingDays(data.expiryDate);
-          estimate.userId = data.userId;
-          estimate.paidFor = data.paidFor;
-          this.estimate = estimate;
-        console.log("real estimate is",this.estimate);
-        
-      // this.editEstimateForm = this.formBuilder.group({ 
-      //   expiresIn : [this.estimate.expiresIn],
-      //   paidFor: [this.estimate.paidFor]
-      // });
-
-      this.editEstimateForm = new FormGroup({
-        expiresIn: new FormControl(this.estimate.expiresIn),
-        paidFor: new FormControl(this.estimate.paidFor)
-     });
-
-    })
-    console.log("outside estimate is",this.estimate);
-
-}
-
-
+      let estimate = new Estimate;      
+      estimate.estimateId =  _.isEmpty(estimateId) || _.isUndefined(estimateId) ? this.user.newEstimateId : estimateId;
+      estimate.amountInvested = _.isUndefined(data.amountInvested) || _.isNull(data.amountInvested) ? 0 : data.amountInvested;
+      estimate.interestRate = _.isUndefined(data.interestRate) || _.isNull(data.interestRate) ? 0 : data.interestRate;
+      estimate.investmentReturns = _.isUndefined(data.investmentReturns) || _.isNull(data.investmentReturns) ? 0 : data.investmentReturns;
+      estimate.createdOn = data.createdOn;
+      estimate.expiryDate = data.expiryDate;
+      estimate.expiresIn = this.getRemainingDays(data.expiryDate);
+      estimate.userId = data.userId;
+      estimate.paidFor = data.paidFor;
+      this.estimate = estimate;
+      console.log("real estimate is: ",this.estimate);
+    
+      this.editEstimateForm = this.formBuilder.group({ 
+        expiresIn : [this.estimate.expiresIn],
+        paidFor: [this.estimate.paidFor]
+      });
+      console.log("outside estimate is: ", this.editEstimateForm);
+    });
+  }
 }
