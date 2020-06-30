@@ -30,6 +30,7 @@ export class DashboardService  implements Resolve<FirebaseUser>{
           firebaseUser.cellphone = res.providerData[0].phoneNumber;
           firebaseUser.creationTime = res.metadata.creationTime;
           firebaseUser.lastSignInTime = res.metadata.lastSignInTime;
+          firebaseUser.roles = { client : true};
 
           this.user = this.setFirebaseUserToUserModel(firebaseUser, "EML");
 
@@ -44,6 +45,7 @@ export class DashboardService  implements Resolve<FirebaseUser>{
           firebaseUser.cellphone = res.providerData[0].phoneNumber;
           firebaseUser.creationTime = res.metadata.creationTime;
           firebaseUser.lastSignInTime = res.metadata.lastSignInTime;
+          firebaseUser.roles = { client : true};
 
           this.user = this.setFirebaseUserToUserModel(firebaseUser, "FB");
           
@@ -58,6 +60,7 @@ export class DashboardService  implements Resolve<FirebaseUser>{
           firebaseUser.cellphone = res.providerData[0].phoneNumber;
           firebaseUser.creationTime = res.metadata.creationTime;
           firebaseUser.lastSignInTime = res.metadata.lastSignInTime;
+          firebaseUser.roles = { client : true} ;
 
           this.user = this.setFirebaseUserToUserModel(firebaseUser, "GGL");
           
@@ -72,6 +75,7 @@ export class DashboardService  implements Resolve<FirebaseUser>{
           firebaseUser.cellphone = res.providerData[0].phoneNumber;
           firebaseUser.creationTime = res.metadata.creationTime;
           firebaseUser.lastSignInTime = res.metadata.lastSignInTime;
+          firebaseUser.roles = { client : true};
 
           this.user = this.setFirebaseUserToUserModel(firebaseUser, res.metadata.provider);
           
@@ -96,6 +100,7 @@ export class DashboardService  implements Resolve<FirebaseUser>{
     user.cellphone = firebaseUser.cellphone;
     user.creationTime = firebaseUser.creationTime;
     user.lastSignInTime = firebaseUser.lastSignInTime;
+    user.roles = firebaseUser.roles;
 
     return user;
   }  

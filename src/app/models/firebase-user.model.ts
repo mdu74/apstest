@@ -1,3 +1,5 @@
+import { Roles } from './roles.model';
+
 export class FirebaseUser {
     uid: string;
     image: string;
@@ -8,6 +10,7 @@ export class FirebaseUser {
     cellphone: string;
     creationTime: Date;
     lastSignInTime: Date;
+    roles : Roles;
 
     constructor() {
         this.uid = "";

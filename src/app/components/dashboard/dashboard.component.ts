@@ -3,7 +3,7 @@ import { UsersService } from '../../service/users.service';
 import { EstimatesService } from '../../service/estimates.service';
 import { AuthenticationService } from '../../service/authentication.service';
 import { Router, ActivatedRoute , NavigationEnd} from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { User } from '../../models/user.model';
 import { Estimate } from '../../models/estimate.model';
 import Swal from 'sweetalert2';
@@ -23,9 +23,9 @@ export class DashboardComponent implements OnInit {
   estimates: Estimate[] = [];
   dashboardForm: FormGroup;
   profileMode = "display";
-  isVerified: boolean;  
-  bankIsSelected: boolean = false;  
-  isPassport: boolean = true;  
+  isVerified: boolean;
+  bankIsSelected: boolean = false;
+  isPassport: boolean = true;
   banks: any[] = [];
   bankName: string = "";
   bankClass: string = "";
@@ -36,20 +36,20 @@ export class DashboardComponent implements OnInit {
     public authenticationService: AuthenticationService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private router: Router
-  ) { 
+    private router: Router,
+  ) {
 
     this.banks = [
-      "Absa", 
-      "Capitec", 
-      "FNB", 
-      "Standard Bank", 
+      "Absa",
+      "Capitec",
+      "FNB",
+      "Standard Bank",
       "Nedbank"
     ];
 
     this.route.data.subscribe(routeData => {
       let data = routeData['data'];
-      this.getUser = data;
+      this.getUser = data;        
     });
 
     this.isVerified = this.getUser.emailVerified;    
@@ -58,29 +58,38 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.getUserProfile();
+
+    this.dashboardForm = new FormGroup({
+      name: new FormControl(''),
+      surname: new FormControl(''),
+      idnumber: new FormControl(''),
+      passport: new FormControl(''),
+      cellphone: new FormControl(''),
+      bank: new FormControl(''),
+    });
   }
 
   getBankClass(){
     if (this.user.bank === "Absa") {
-      return "absa";      
-    } else if(this.user.bank === "Capitec"){
-      return "capitec";    
-    } else if(this.user.bank === "FNB"){
-      return "fnb";    
-    } else if(this.user.bank === "Standard Bank"){
-      return "standard-bank";    
-    } else if(this.user.bank === "Nedbank"){
-      return "nedbank";    
+      return "absa";
+    } else if (this.user.bank === "Capitec") {
+      return "capitec";
+    } else if (this.user.bank === "FNB") {
+      return "fnb";
+    } else if (this.user.bank === "Standard Bank") {
+      return "standard-bank";
+    } else if (this.user.bank === "Nedbank") {
+      return "nedbank";
     }
   }
 
-  getUserProfile(){
-    this.estimatesService.getEstimatesByUser(this.getUser.uid).onSnapshot((querySnapshot)=>{
-      querySnapshot.forEach((estimateDoc)=>{
+  getUserProfile() {
+    this.estimatesService.getEstimatesByUser(this.getUser.uid).onSnapshot((querySnapshot) => {
+      querySnapshot.forEach((estimateDoc) => {
         let data = estimateDoc.data();
         let estimate = new Estimate;
-        
-        estimate.estimateId =  _.isEmpty(estimateDoc.id) || _.isUndefined(estimateDoc.id) ? this.user.newEstimateId : estimateDoc.id;
+
+        estimate.estimateId = _.isEmpty(estimateDoc.id) || _.isUndefined(estimateDoc.id) ? this.user.newEstimateId : estimateDoc.id;
         estimate.amountInvested = _.isUndefined(data.amountInvested) || _.isNull(data.amountInvested) ? 0 : data.amountInvested;
         estimate.interestRate = _.isUndefined(data.interestRate) || _.isNull(data.interestRate) ? 0 : data.interestRate;
         estimate.investmentReturns = _.isUndefined(data.investmentReturns) || _.isNull(data.investmentReturns) ? 0 : data.investmentReturns;
@@ -91,24 +100,24 @@ export class DashboardComponent implements OnInit {
         this.estimates.push(estimate);
       });
 
-      this.estimates.forEach((estimate)=>{
-        if(estimate.expiresIn < 0){
+      this.estimates.forEach((estimate) => {
+        if (estimate.expiresIn < 0) {
           // this.estimatesService.deleteExpiredEstimate();
           this.estimatesService.deleteEstimate(estimate.estimateId);
           Swal.fire(
             'Your Estimate Has Expired!',
             `Your estimate of the amount ${estimate.amountInvested} for created on ${estimate.createdOn} has expired!`,
             'warning'
-          );                    
+          );
         }
       });
-      
-    });    
+
+    });
 
     this.setUserDataFromDatabase(this.getUser.uid);
   }
 
-  setUserDataFromDatabase(userId: string): void{
+  setUserDataFromDatabase(userId: string): void {
     this.usersService.getUserProfile(userId).subscribe(data => {
       this.user.uid = data.uid;
       this.user.cellphone = data.cellphone;
@@ -128,35 +137,35 @@ export class DashboardComponent implements OnInit {
       console.log("User profile: ", this.user);
       this.createForm(this.user);
       this.hasBankDetails(this.user);
-    }); 
+    });
   }
 
-  validateBank(bank: string): boolean{
+  validateBank(bank: string): boolean {
     var result = _.isEmpty(bank) || (bank === "Absa" || bank === "Capitec" || bank === "FNB" || bank === "Standard Bank" || bank === "Nedbank");
     return result;
   }
 
-  hasBankDetails(user: User){    
+  hasBankDetails(user: User) {
     this.bankIsSelected = _.isEmpty(user.bank) || _.isUndefined(user.bank) ? false : true;
   }
 
-  getRemainingDays(expiresIn: any): number{ 
+  getRemainingDays(expiresIn: any): number {
     let event = moment(expiresIn);
-    let currentDate = moment().format("YYYY-MM-DD");  
-    return  event.diff(currentDate, "days");
+    let currentDate = moment().format("YYYY-MM-DD");
+    return event.diff(currentDate, "days");
   }
 
-  getName(name: string): string{
+  getName(name: string): string {
     if (/\s/.test(name)) {
       let getName = name.split(" ")[0];
       return getName;
-    }else{
+    } else {
       return name;
     }
   }
 
-  getSurname(surname: string): string{
-    if (_.isEmpty(surname) || _.isUndefined(surname) || _.isNull(surname)){
+  getSurname(surname: string): string {
+    if (_.isEmpty(surname) || _.isUndefined(surname) || _.isNull(surname)) {
       let getSurname = this.user.name.split(" ")[1];
       return getSurname;
     } else {
@@ -164,22 +173,22 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  userHasCellphone(cellphone: string): boolean{
-    return _.isEmpty(cellphone) || _.isNull(cellphone)  ? false : true;
+  userHasCellphone(cellphone: string): boolean {
+    return _.isEmpty(cellphone) || _.isNull(cellphone) ? false : true;
   }
   
   createForm(user: User) {
     this.dashboardForm = this.formBuilder.group({
-      name: [this.getName(user.name), [Validators.required]],
-      surname: [this.getSurname(user.surname), [Validators.required]],
-      idnumber: [user.idNumber, [Validators.required]],
+      name: [this.getName(user.name), Validators.required],
+      surname: [this.getSurname(user.surname), Validators.required],
+      idnumber: [user.idNumber, Validators.required],
       image: user.image,
       provider: user.provider,
       bank: user.bank,
       email: user.email,
       emailVerified: user.emailVerified,
-      passport: [user.passportNumber, [Validators.required]],
-      cellphone: [user.cellphone, [Validators.required]],
+      passport: [user.passportNumber, Validators.required],
+      cellphone: [user.cellphone, Validators.required],
       transactions: user.transactions,
       referenceNumber: user.referenceNumber,
       estimates: user.estimates
@@ -187,6 +196,7 @@ export class DashboardComponent implements OnInit {
   }
 
   switchProfileMode() {
+
     if (this.profileMode == "display") {
       this.profileMode = "edit";
     } else {
@@ -207,28 +217,28 @@ export class DashboardComponent implements OnInit {
     );
 
     this.usersService
-        .updateUserProfile(this.user.uid, userdata)
-        .then(()=>{           
-          this.profileMode = "display"; 
-          this.setUserDataFromDatabase(this.user.uid);
-        });    
+      .updateUserProfile(this.user.uid, userdata)
+      .then(() => {
+        this.profileMode = "display";
+        this.setUserDataFromDatabase(this.user.uid);
+      });
   }
 
-  isIdNumber(event: any): void{
+  isIdNumber(event: any): void {
     if (event.target.value.length > 3) {
       this.isPassport = false;
     }
   }
 
-  goBackToDisplay(): void{
+  goBackToDisplay(): void {
     this.profileMode = "display";
   }
 
-  countEstimates(): number{
+  countEstimates(): number {
     return this.estimates.length;
   }
 
-  getBank(name: string): void{
+  getBank(name: string): void {
     this.bankName = name;
   }
 }

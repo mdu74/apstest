@@ -32,6 +32,7 @@ import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 import { TermsAndConditionsComponent } from './components/register/terms-and-conditions/terms-and-conditions.component';
 import { ClientsComponent } from './components/clients/clients.component';
 import { ClientDetailsComponent } from './components/client-details/client-details.component';
+import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 declare var $: any;
 
@@ -58,6 +59,7 @@ declare var $: any;
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFirestoreModule,
+    AngularFireAuthGuardModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     BrowserAnimationsModule,
     BrowserModule,
@@ -72,7 +74,7 @@ declare var $: any;
     })
   ],
   exports: [RouterModule],
-  providers: [AngularFirestoreModule],
+  providers: [AngularFirestoreModule, AngularFireAuthGuardModule],
   bootstrap: [AppComponent]
 })
 

@@ -14,7 +14,8 @@ export class SideNavbarComponent implements OnInit {
   isLoggedIn: boolean = true;
   canRegister: boolean = false;
   mySubscription: any;
-
+  visible: boolean;
+  
   constructor(public authenticationService: AuthenticationService, private router: Router, public usersService: UsersService) {
     this.usersService.getCurrentUser()
     .then((result)=>{
@@ -29,6 +30,7 @@ export class SideNavbarComponent implements OnInit {
       console.log("Test: ", this.router.navigate(['dashboard']));
       this.router.navigate(['dashboard']);
     }); 
+
     // setTimeout(() => {
     //   let registerNavBar = document.getElementById("registerUser");
     //   if (!_.isNull(registerNavBar) && this.isLoggedIn) {
@@ -42,6 +44,7 @@ export class SideNavbarComponent implements OnInit {
     this.usersService.getCurrentUser()
     .then((result)=>{
       this.isLoggedIn = true;
+      this.authenticationService.isAdmin().then((value:boolean)=>{ this.visible = value });
       this.canRegister = false;
     },(error)=>{
       this.isLoggedIn = false;

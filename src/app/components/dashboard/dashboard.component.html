@@ -194,7 +194,7 @@
                       </div>
                     </div>
                     <div class="col-md-8" *ngIf = "bankIsSelected == true">
-                      <select  class="form-control" formControlName="bank" ngModel="user.bank">
+                      <select  class="form-control" formControlName="bank" ngModel="{{user.bank}}">
                         <option disabled>You want to change your account?</option>
                         <option *ngFor="let bank of banks" ngValue="{{bank}}">{{bank}}</option>
                       </select>
@@ -202,7 +202,7 @@
                   </div>
 
                   <span *ngIf = "bankIsSelected == false">
-                    <select  class="form-control" formControlName="bank" ngModel="user.bank">
+                    <select  class="form-control" formControlName="bank" ngModel="{{user.bank}}">
                       <option disabled>Please choose a bank</option>
                       <option *ngFor="let bank of banks" ngValue="{{bank}}">{{bank}}</option>
                     </select>
