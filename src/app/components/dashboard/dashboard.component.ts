@@ -3,7 +3,7 @@ import { UsersService } from '../../service/users.service';
 import { EstimatesService } from '../../service/estimates.service';
 import { AuthenticationService } from '../../service/authentication.service';
 import { Router, ActivatedRoute , NavigationEnd} from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { User } from '../../models/user.model';
 import { Estimate } from '../../models/estimate.model';
 import Swal from 'sweetalert2';
@@ -58,6 +58,15 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.getUserProfile();
+
+    this.dashboardForm = new FormGroup({
+      name: new FormControl(''),
+      surname: new FormControl(''),
+      idnumber: new FormControl(''),
+      passport: new FormControl(''),
+      cellphone: new FormControl(''),
+      bank: new FormControl(''),
+    });
   }
 
   getBankClass(){
@@ -170,16 +179,16 @@ export class DashboardComponent implements OnInit {
   
   createForm(user: User) {
     this.dashboardForm = this.formBuilder.group({
-      name: [this.getName(user.name), [Validators.required]],
-      surname: [this.getSurname(user.surname), [Validators.required]],
-      idnumber: [user.idNumber, [Validators.required]],
+      name: [this.getName(user.name), Validators.required],
+      surname: [this.getSurname(user.surname), Validators.required],
+      idnumber: [user.idNumber, Validators.required],
       image: user.image,
       provider: user.provider,
       bank: user.bank,
       email: user.email,
       emailVerified: user.emailVerified,
-      passport: [user.passportNumber, [Validators.required]],
-      cellphone: [user.cellphone, [Validators.required]],
+      passport: [user.passportNumber, Validators.required],
+      cellphone: [user.cellphone, Validators.required],
       transactions: user.transactions,
       referenceNumber: user.referenceNumber,
       estimates: user.estimates

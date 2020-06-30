@@ -41,5 +41,6 @@ export class User {
         this.transactions = 0;
         this.estimates = [];
         this.agreedToTerms = false;
+        this.roles = new Roles();
     }
 }

@@ -7,6 +7,7 @@ import { first } from 'rxjs/operators';
 import { UsersService } from '../service/users.service';
 import { User } from '../models/user.model';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Roles } from '../models/roles.model';
 
 @Injectable({
   providedIn: 'root'
@@ -121,13 +122,15 @@ export class AuthenticationService{
       .then((docSnapshot) => {
         if (!docSnapshot.exists) {
           let user = this.setUserData(result);
+          console.log("user is",user)
+
           this.userService.createUser(user);
         }
       });
   }
 
   setUserData(res: any): any {
-    let user = { uid: "", name: "", surname: "", email: "", cellphone: "", image: "", referenceNumber: "", agreedToTerms: false, roles: { client: true } };
+    let user = { uid: "", name: "", surname: "", email: "", cellphone: "", image: "", referenceNumber: "", agreedToTerms: false, roles: new Roles() };
 
     user.uid = res.user.uid;
     user.name = /\s/.test(res.user.displayName) ? res.user.displayName.split(" ")[0] : res.user.displayName;
@@ -137,6 +140,9 @@ export class AuthenticationService{
     user.image = res.user.photoURL;
     user.referenceNumber = this.generateReferenceNumber(user.email, res.user.providerData[0].providerId);
     user.agreedToTerms = res.user.agreedToTerms;
+    let roles =new Roles;
+    roles.client = true;
+    user.roles = roles;
     return user;
   }
 
