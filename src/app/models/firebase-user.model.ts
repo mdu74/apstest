@@ -10,6 +10,7 @@ export class FirebaseUser {
     cellphone: string;
     creationTime: Date;
     lastSignInTime: Date;
+    referenceNumber: string;
     roles : Roles;
 
     constructor() {
@@ -22,5 +23,7 @@ export class FirebaseUser {
         this.cellphone = "";
         this.creationTime = new Date();
         this.lastSignInTime = new Date();
+        this.referenceNumber = "";
+        this.roles = { client: true };
     }
 }

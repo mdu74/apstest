@@ -60,13 +60,15 @@ export class DashboardComponent implements OnInit {
     this.getUserProfile();
 
     this.dashboardForm = new FormGroup({
-      name: new FormControl(''),
-      surname: new FormControl(''),
-      idnumber: new FormControl(''),
-      passport: new FormControl(''),
-      cellphone: new FormControl(''),
-      bank: new FormControl(''),
+      name: new FormControl('', Validators.required),
+      surname: new FormControl('', Validators.required),
+      idnumber: new FormControl('', Validators.required),
+      passport: new FormControl('', Validators.required),
+      cellphone: new FormControl('', Validators.required),
+      bank: new FormControl('', Validators.required),
     });
+
+    
   }
 
   getBankClass(){
@@ -122,10 +124,10 @@ export class DashboardComponent implements OnInit {
       this.user.uid = data.uid;
       this.user.cellphone = data.cellphone;
       this.user.name = _.isEmpty(data.name) ? this.getName(this.getUser.name) : data.name;
-      this.user.surname = _.isEmpty(data.name) ? this.getSurname(this.getUser.name) : data.surname;
+      this.user.surname = _.isEmpty(data.surname) ? this.getSurname(this.getUser.surname) : data.surname;
       this.user.image = this.getUser.image;
       this.user.provider = this.getUser.provider;
-      this.user.email = data.email;
+      this.user.email = this.getUser.email;
       this.user.idNumber = data.idNumber;
       this.user.bank = this.validateBank(data.bank) ? data.bank : this.user.bank;
       this.user.passportNumber = data.passportNumber;
@@ -209,12 +211,8 @@ export class DashboardComponent implements OnInit {
     userdata.uid = this.user.uid;
     userdata.image = this.user.image;
     userdata.provider = this.user.provider;
-
-    Swal.fire(
-      'Thank You!',
-      'You have updated your details!',
-      'success'
-    );
+    userdata.roles = Object.assign({}, this.user.roles);
+    userdata.referenceNumber = this.user.referenceNumber;
 
     this.usersService
       .updateUserProfile(this.user.uid, userdata)
@@ -222,6 +220,12 @@ export class DashboardComponent implements OnInit {
         this.profileMode = "display";
         this.setUserDataFromDatabase(this.user.uid);
       });
+   
+    Swal.fire(
+      'Thank You!',
+      'You have updated your details!',
+      'success'
+    );
   }
 
   isIdNumber(event: any): void {

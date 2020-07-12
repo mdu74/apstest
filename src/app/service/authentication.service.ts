@@ -7,7 +7,6 @@ import { first } from 'rxjs/operators';
 import { UsersService } from '../service/users.service';
 import { User } from '../models/user.model';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Roles } from '../models/roles.model';
 
 @Injectable({
   providedIn: 'root'
@@ -121,7 +120,7 @@ export class AuthenticationService{
     usersRef.ref.get()
       .then((docSnapshot) => {
         if (!docSnapshot.exists) {
-          let user = this.setUserData(result);
+          let user = this.setUserData(result, agreeToTerms);
           console.log("user is",user)
 
           this.userService.createUser(user);
@@ -129,8 +128,8 @@ export class AuthenticationService{
       });
   }
 
-  setUserData(res: any): any {
-    let user = { uid: "", name: "", surname: "", email: "", cellphone: "", image: "", referenceNumber: "", agreedToTerms: false, roles: new Roles() };
+  setUserData(res: any, agreeToTerms: boolean): any {
+    let user = { uid: "", name: "", surname: "", email: "", cellphone: "", image: "", referenceNumber: "", agreedToTerms: agreeToTerms, roles: { client: true }};
 
     user.uid = res.user.uid;
     user.name = /\s/.test(res.user.displayName) ? res.user.displayName.split(" ")[0] : res.user.displayName;
@@ -138,11 +137,7 @@ export class AuthenticationService{
     user.email = res.user.email;
     user.cellphone = res.user.phoneNumber;
     user.image = res.user.photoURL;
-    user.referenceNumber = this.generateReferenceNumber(user.email, res.user.providerData[0].providerId);
-    user.agreedToTerms = res.user.agreedToTerms;
-    let roles =new Roles;
-    roles.client = true;
-    user.roles = roles;
+    user.referenceNumber = this.generateReferenceNumber(res.user.email, res.user.providerData[0].providerId);
     return user;
   }
 

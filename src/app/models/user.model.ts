@@ -20,7 +20,7 @@ export class User {
     newEstimateId: string;
     estimates: Estimate[];
     agreedToTerms: boolean;
-    roles : Roles;
+    roles: Roles;
 
     constructor() {
         this.uid = "";
@@ -41,6 +41,6 @@ export class User {
         this.transactions = 0;
         this.estimates = [];
         this.agreedToTerms = false;
-        this.roles = new Roles();
+        this.roles = { client: true };
     }
 }

@@ -1,13 +1,7 @@
-export class Roles { 
+export interface Roles { 
     master?: boolean;
     admin?: boolean;
     client?: boolean;
-
-    constructor(){
-        this.client = true;
-        this.admin = false;
-        this.master = false;
-    }
  }
 
  

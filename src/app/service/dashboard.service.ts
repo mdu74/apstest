@@ -45,6 +45,7 @@ export class DashboardService  implements Resolve<FirebaseUser>{
           firebaseUser.cellphone = res.providerData[0].phoneNumber;
           firebaseUser.creationTime = res.metadata.creationTime;
           firebaseUser.lastSignInTime = res.metadata.lastSignInTime;
+          firebaseUser.referenceNumber = this.generateReferenceNumber(res.providerData[0].email, res.providerData[0].providerId);
           firebaseUser.roles = { client : true};
 
           this.user = this.setFirebaseUserToUserModel(firebaseUser, "FB");
@@ -60,7 +61,8 @@ export class DashboardService  implements Resolve<FirebaseUser>{
           firebaseUser.cellphone = res.providerData[0].phoneNumber;
           firebaseUser.creationTime = res.metadata.creationTime;
           firebaseUser.lastSignInTime = res.metadata.lastSignInTime;
-          firebaseUser.roles = { client : true} ;
+          firebaseUser.referenceNumber = this.generateReferenceNumber(res.providerData[0].email, res.providerData[0].providerId);
+          firebaseUser.roles = { client : true};
 
           this.user = this.setFirebaseUserToUserModel(firebaseUser, "GGL");
           
@@ -75,6 +77,7 @@ export class DashboardService  implements Resolve<FirebaseUser>{
           firebaseUser.cellphone = res.providerData[0].phoneNumber;
           firebaseUser.creationTime = res.metadata.creationTime;
           firebaseUser.lastSignInTime = res.metadata.lastSignInTime;
+          firebaseUser.referenceNumber = this.generateReferenceNumber(res.providerData[0].email, res.providerData[0].providerId);
           firebaseUser.roles = { client : true};
 
           this.user = this.setFirebaseUserToUserModel(firebaseUser, res.metadata.provider);
@@ -100,8 +103,16 @@ export class DashboardService  implements Resolve<FirebaseUser>{
     user.cellphone = firebaseUser.cellphone;
     user.creationTime = firebaseUser.creationTime;
     user.lastSignInTime = firebaseUser.lastSignInTime;
-    user.roles = firebaseUser.roles;
-
+    firebaseUser.referenceNumber = firebaseUser.referenceNumber;
+    user.roles = { client: true }
     return user;
   }  
+
+  
+  generateReferenceNumber(email: string, providerType: string): string {
+    let splitEmail = email.split("@");
+    let referenceNumber = splitEmail[0].substring(0, 3).toUpperCase() + providerType.substring(0, 3).toUpperCase() + Math.floor(100 + Math.random() * 500).toString();
+
+    return referenceNumber;
+  }
 }
