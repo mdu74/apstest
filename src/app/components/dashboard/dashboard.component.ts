@@ -63,7 +63,7 @@ export class DashboardComponent implements OnInit {
       name: new FormControl('', Validators.required),
       surname: new FormControl('', Validators.required),
       idnumber: new FormControl('', Validators.required),
-      passport: new FormControl('', Validators.required),
+      passport: new FormControl(''),
       cellphone: new FormControl('', Validators.required),
       bank: new FormControl('', Validators.required),
     });
@@ -132,7 +132,7 @@ export class DashboardComponent implements OnInit {
       this.user.bank = this.validateBank(data.bank) ? data.bank : this.user.bank;
       this.user.passportNumber = data.passportNumber;
       this.user.emailVerified = this.getUser.emailVerified;
-      this.user.referenceNumber = data.referenceNumber;
+      this.user.referenceNumber = this.getUser.referenceNumber;
       this.user.newEstimateId = data.newEstimateId;
       this.user.transactions = this.countEstimates();
       this.user.estimates = data.estimates;
@@ -189,7 +189,7 @@ export class DashboardComponent implements OnInit {
       bank: user.bank,
       email: user.email,
       emailVerified: user.emailVerified,
-      passport: [user.passportNumber, Validators.required],
+      passport: user.passportNumber,
       cellphone: [user.cellphone, Validators.required],
       transactions: user.transactions,
       referenceNumber: user.referenceNumber,

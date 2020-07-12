@@ -150,21 +150,30 @@
             <form [formGroup]="dashboardForm">
 
                 <div class="form-group">
-                    <label class="control-label">
-                      <i class="fas fa-user"></i>Your name</label>
-                    <input formControlName="name" type="text" class="form-control" ngModel="{{user.name}}" placeholder ="Your name is?" />
+                  <label class="control-label">
+                    <i class="fas fa-user"></i>Your name</label>
+                  <input formControlName="name" type="text" class="form-control" ngModel="{{user.name}}" placeholder="Your name is?" required />
+                  <div class="form-control-feedback text-danger" *ngIf="dashboardForm.controls.name.invalid && dashboardForm.controls.name.touched">
+                    Name is required
+                  </div>
                 </div>
                 
                 <div class="form-group">
                     <label class="control-label">
                       <i class="fas fa-user-friends"></i>Your surname</label>
                     <input formControlName="surname" type="text" class="form-control" ngModel="{{user.surname}}" placeholder="Your surname is?" />
+                    <div class="form-control-feedback text-danger" *ngIf="dashboardForm.controls.surname.invalid && dashboardForm.controls.surname.touched">
+                      Surname is required
+                    </div>
                 </div>
                 
                 <div class="form-group">
                     <label class="control-label">
                       <i class="fas fa-id-card"></i>Your id number</label>
-                    <input formControlName="idnumber" type="text" class="form-control" ngModel="{{user.idNumber}}" placeholder="Your id number is?" pattern="[0-9]*" maxlength="13" numbersOnly/>
+                    <input formControlName="idnumber" type="text" class="form-control" ngModel="{{user.idNumber}}" placeholder="Your id number is?" pattern="[0-9]*" maxlength="13" numbersOnly required/>
+                    <div class="form-control-feedback text-danger" *ngIf="dashboardForm.controls.idnumber.invalid && dashboardForm.controls.idnumber.touched">
+                      ID number is required
+                    </div>
                 </div>
 
                 <div class="form-group" *ngIf="isPassport">
@@ -176,11 +185,14 @@
                 <div class="form-group">
                     <label class="control-label">
                       <i class="fas fa-mobile-alt"></i>Your cellphone</label>
-                    <input formControlName="cellphone" type="text" class="form-control" ngModel="{{user.cellphone}}" placeholder="Your cellphone number is?" pattern="[0-9]*" maxlength="10" numbersOnly/>
+                    <input formControlName="cellphone" type="text" class="form-control" ngModel="{{user.cellphone}}" placeholder="Your cellphone number is?" pattern="[0-9]*" maxlength="10" numbersOnly required/>
+                    <div class="form-control-feedback text-danger" *ngIf="dashboardForm.controls.cellphone.invalid && dashboardForm.controls.cellphone.touched">
+                      Cellphone number is required
+                    </div>
                 </div>
 
                 <div class="form-group">
-                  <label>Banks</label>
+                  <label>Bank</label>
 
                   <div *ngIf = "bankIsSelected == true" class="row">
                     <div class="col-md-4">
@@ -210,8 +222,8 @@
                 </div>  
           </form>
   
-          <a (click)="goBackToDisplay()" class="btn btn-primary btn-block" style="color:#fff"><b>Go Back To Display Profile</b></a>
-          <a (click)="updateProfile(dashboardForm.value)" class="btn btn-primary btn-block" style="color:#fff"><b>Update Profile</b></a>
+          <button (click)="goBackToDisplay()" class="btn btn-primary btn-block" style="color:#fff"><b>Go Back To Display Profile</b></button>
+          <button (click)="updateProfile(dashboardForm.value)" class="btn btn-primary btn-block"  [disabled]="dashboardForm.invalid" style="color:#fff"><b>Update Profile</b></button>
           </div>
         </div>
         <!-- /.card-body -->
