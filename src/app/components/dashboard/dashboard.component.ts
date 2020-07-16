@@ -9,7 +9,7 @@ import { Estimate } from '../../models/estimate.model';
 import Swal from 'sweetalert2';
 import * as _ from "lodash";
 import * as moment from 'moment';
-
+ 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -26,6 +26,7 @@ export class DashboardComponent implements OnInit {
   isVerified: boolean;
   bankIsSelected: boolean = false;
   isPassport: boolean = true;
+  isIdNumber: boolean = true;
   banks: any[] = [];
   bankName: string = "";
   bankClass: string = "";
@@ -60,15 +61,13 @@ export class DashboardComponent implements OnInit {
     this.getUserProfile();
 
     this.dashboardForm = new FormGroup({
-      name: new FormControl('', Validators.required),
-      surname: new FormControl('', Validators.required),
-      idnumber: new FormControl('', Validators.required),
+      name: new FormControl(''),
+      surname: new FormControl(''),
+      idnumber: new FormControl(''),
       passport: new FormControl(''),
-      cellphone: new FormControl('', Validators.required),
-      bank: new FormControl('', Validators.required),
-    });
-
-    
+      cellphone: new FormControl(''),
+      bank: new FormControl(''),
+    });   
   }
 
   getBankClass(){
@@ -136,6 +135,14 @@ export class DashboardComponent implements OnInit {
       this.user.newEstimateId = data.newEstimateId;
       this.user.transactions = this.countEstimates();
       this.user.estimates = data.estimates;
+
+      if(this.user.idNumber.length > 3){
+        this.isPassport = false;       
+      }
+
+      if(this.user.passportNumber.length > 3){
+        this.isIdNumber = false;       
+      }
       console.log("User profile: ", this.user);
       this.createForm(this.user);
       this.hasBankDetails(this.user);
@@ -181,8 +188,8 @@ export class DashboardComponent implements OnInit {
   
   createForm(user: User) {
     this.dashboardForm = this.formBuilder.group({
-      name: [this.getName(user.name), Validators.required],
-      surname: [this.getSurname(user.surname), Validators.required],
+      name: [this.getName(user.name), [ Validators.required, Validators.minLength(2), Validators.pattern('[a-zA-Z ]*')]],
+      surname: [this.getSurname(user.surname), [ Validators.required, Validators.minLength(2), Validators.pattern('[a-zA-Z ]*')]],
       idnumber: [user.idNumber, Validators.required],
       image: user.image,
       provider: user.provider,
@@ -228,11 +235,40 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  isIdNumber(event: any): void {
+  passportVisibility(event: any): void {
     if (event.target.value.length > 3) {
       this.isPassport = false;
     }
+    else
+    {
+      this.isPassport = true;
+      if(this.isPassport && event.target.value.length > 3){
+        this.isIdNumber = false;
+      }
+    }
+    const invalid = [];
+    const controls = this.dashboardForm.controls;
+    for (const name in controls) {
+        if (controls[name].invalid) {
+            invalid.push(name);
+        }
+    }
+    console.log("invalid control is ",invalid)
   }
+
+  idNumberVisibility(event: any): void {
+    if (event.target.value.length > 3) {
+      this.isIdNumber = false;
+    }
+    else
+    {
+      this.isIdNumber = true;
+      if(this.isIdNumber && event.target.value.length > 3){
+        this.isPassport = false;
+      }  
+    }
+  }
+
 
   goBackToDisplay(): void {
     this.profileMode = "display";
