@@ -25,24 +25,26 @@ export class RegisterComponent implements OnInit {
     private formBuilder: FormBuilder
   ) { 
     this.createForm();
+    this.registerForm.setErrors({ 'invalid': true });
    }
 
    createForm(): void {
     this.registerForm = this.formBuilder.group({
-      email: ['', Validators.required ],
-      confirmEmail: '',
-      password: ['',Validators.required],
-      retypePassword: '',
-      name: ['', Validators.required],
-      surname: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      confirmEmail: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6), Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')]],
+      retypePassword:['', Validators.required],
+      name: ['', [Validators.required, Validators.minLength(2), Validators.pattern('[A-Z][a-z ]*')]],
+      surname: ['', [Validators.required, Validators.minLength(2), Validators.pattern('[A-Z][a-z ]*')]],
       idNumber: '',
-      passportNumber:  '',
+      passportNumber: '',
       agreedToTerms: this.agree
     });
   }
 
   agreeToConditions(value: any){
-    this.agree = value.currentTarget.checked;
+   
+    this.agree = value.currentTarget.checked; 
   }
 
   facebookLogin(){

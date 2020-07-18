@@ -22,6 +22,18 @@
                         <div class="card-body login-card-body">
                             <p class="login-box-msg">Sign in to start your session</p>
 
+                            <div class="social-auth-links text-center mb-3">                           
+                                <!-- <a (click)="facebookLogin()" class="btn btn-block btn-primary" style="color: white">
+                                    <i class="fab fa-facebook mr-2"></i> 
+                                    Sign in using Facebook
+                                </a> -->
+                                <a (click)="googleLogin(true)" class="btn btn-block btn-danger mb-2" style="color: white">
+                                    <i class="fab fa-google-plus mr-2"></i> 
+                                    Sign in using Google+
+                                </a>
+                                <p>- OR -</p>
+                            </div>
+
                             <form [formGroup]="loginForm">
                                 <div class="input-group mb-3">
                                     <input formControlName="email" type="email" class="form-control" placeholder="Email">
@@ -48,17 +60,6 @@
                                 </div>
                             </form>
 
-                            <div class="social-auth-links text-center mb-3">
-                                <p>- OR -</p>
-                                <!-- <a (click)="facebookLogin()" class="btn btn-block btn-primary" style="color: white">
-                                    <i class="fab fa-facebook mr-2"></i> 
-                                    Sign in using Facebook
-                                </a> -->
-                                <a (click)="googleLogin(true)" class="btn btn-block btn-danger" style="color: white">
-                                    <i class="fab fa-google-plus mr-2"></i> 
-                                    Sign in using Google+
-                                </a>
-                            </div>
                             <!-- /.social-auth-links -->
 
                             <p class="mb-1">

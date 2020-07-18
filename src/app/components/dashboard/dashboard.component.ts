@@ -188,8 +188,8 @@ export class DashboardComponent implements OnInit {
   
   createForm(user: User) {
     this.dashboardForm = this.formBuilder.group({
-      name: [this.getName(user.name), [ Validators.required, Validators.minLength(2), Validators.pattern('[a-zA-Z ]*')]],
-      surname: [this.getSurname(user.surname), [ Validators.required, Validators.minLength(2), Validators.pattern('[a-zA-Z ]*')]],
+      name: [this.getName(user.name), [ Validators.required, Validators.minLength(2), Validators.pattern('[A-Z][a-z ]')]],
+      surname: [this.getSurname(user.surname), [ Validators.required, Validators.minLength(2), Validators.pattern('[A-Z][a-z ]')]],
       idnumber: [user.idNumber, Validators.required],
       image: user.image,
       provider: user.provider,

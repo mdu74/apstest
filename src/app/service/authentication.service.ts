@@ -55,6 +55,15 @@ export class AuthenticationService{
         .then(result => {
           this.createUserIfItDoesNotExist(result, value.agreedToTerms);
           this.sendVerificationMail();
+          firebase.auth().onAuthStateChanged(function(user) { 
+            if (user.emailVerified) {
+              console.log('Email is verified');
+            }
+            else {
+              console.log('Email is not verified');
+            }
+          });
+
           resolve(result);
         }, err => {
           reject(err);
@@ -65,13 +74,23 @@ export class AuthenticationService{
   sendVerificationMail(){
     return new Promise<any>((resolve, reject) => {
       firebase.auth().currentUser.sendEmailVerification().then(() => {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/dashboard']);     
       });
     });
+    
   }
 
   isLoggedIn(){
+    firebase.auth().onAuthStateChanged(function(user) { 
+      if (user.emailVerified) {
+        console.log('Email is verified');
+      }
+      else {
+        console.log('Email is not verified');
+      }
+    });
     return this.afAuth.authState.pipe(first()).toPromise();
+  
   }
 
   doLogin(value){
@@ -100,6 +119,41 @@ export class AuthenticationService{
       }
     });
   }
+
+  // onAuthUserListener = (next, fallback) =>
+  // this.afAuth.auth.onAuthStateChanged(authUser => {
+  //     if(authUser){
+  //       this.user$
+
+  //     }
+
+
+  //     const urlCurrent = window.location.href;
+  //     const valueOobCode = "";
+  //     if(valueOobCode !== null){
+  //       this.afAuth.auth.checkActionCode(valueOobCode)
+  //       .then(result => {
+  //         if (!authUser.emailVerified){
+  //           this.afAuth.auth.applyActionCode(valueOobCode)
+  //           .then( resp =>{
+  //             console.log("Success in applying the action code");
+  //             this.afAuth.auth.currentUser.reload();
+  //           })
+  //           .catch(error => {
+  //             console.log("ERROR in applying action code: ", error);
+  //           })
+  //         }
+  
+  //       })
+  //       .catch(error => {
+  //         console.log("ERROR from checkActionCode: ",error)
+  //       })
+  
+
+  //     }
+     
+  // } )
+
 
   forgotPassword(email: string) {
     return new Promise<any>((resolve, reject) => {

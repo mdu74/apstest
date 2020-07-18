@@ -22,43 +22,111 @@
                 <div class="card-body register-card-body">
                     <p class="login-box-msg">As our new member please fill in the details below</p>
         
+                    <div class="social-auth-links text-center mb-3">              
+                        <!-- <a (click)="facebookLogin()" class="btn btn-block btn-primary">
+                            <i class="fab fa-facebook mr-2"></i>
+                            Sign up using Facebook
+                        </a> -->
+                        <a (click)="googleLogin()" class="btn btn-block btn-danger mb-2" style="color:#fff">
+                            <i class="fab fa-google-plus mr-2"></i>
+                            Sign up using Google+
+                        </a>
+                        <p>- OR -</p>
+                    </div>
+
                     <form [formGroup]="registerForm">
-                        <div class="input-group mb-3">
-                            <input formControlName="name" type="text" class="form-control" placeholder="Enter your name">
-                            <div class="input-group-append input-group-text">
-                                <span class="fas fa-user"></span>
+                      
+                            <button class="btn btn-block btn-secondary mb-5" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                             Other options
+                            </button>
+                         
+                          <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                                <div class="input-group pb-3">
+                                    <input formControlName="name" type="text" class="form-control" placeholder="Enter your name">
+                                    <div class="input-group-append input-group-text">
+                                        <span class="fas fa-user"></span>
+                                    </div>                                                
+                                </div>
+                                <div class="form-control-feedback text-danger mb-2" *ngIf="registerForm.controls.name.invalid && (registerForm.controls.name.dirty || registerForm.controls.name.touched)">     
+                                    <div *ngIf="registerForm.controls.name.errors.required">
+                                      Name is required.
+                                    </div>
+                                    <div *ngIf="registerForm.controls.name.errors.minlength">
+                                      Name must be at least 2 characters long.
+                                    </div>
+                                    <div *ngIf="registerForm.controls.name.errors.pattern">
+                                      Name should start with a capital letter and should only contain letters.
+                                    </div>
+                                </div>
+                                <div class="input-group mb-2">
+                                    <input formControlName="surname" type="text" class="form-control" placeholder="Enter your surname">
+                                    <div class="input-group-append input-group-text">
+                                        <span class="fas fa-user"></span>
+                                    </div>                         
+                                </div>
+                                <div class="form-control-feedback text-danger mb-2" *ngIf="registerForm.controls.surname.invalid && (registerForm.controls.surname.dirty || registerForm.controls.surname.touched)">              
+                                    <div *ngIf="registerForm.controls.surname.errors.required">
+                                      Surname is required.
+                                    </div>
+                                    <div *ngIf="registerForm.controls.surname.errors.minlength">
+                                      Surname must be at least 2 characters long.
+                                    </div>
+                                    <div *ngIf="registerForm.controls.surname.errors.pattern">
+                                      Surname must start with uppercase and should only contain letters.
+                                    </div>
+                                </div>
+                                <div class="input-group mb-2">
+                                    <input  formControlName="email" type="email" class="form-control" placeholder="Enter your email" (keyup)="getEmailAddress($event)">
+                                    <div class="input-group-append input-group-text">
+                                        <span class="fas fa-envelope"></span>
+                                    </div>
+                                </div>
+                                <div class="form-control-feedback text-danger mb-2" *ngIf="registerForm.controls.email.invalid && (registerForm.controls.email.dirty || registerForm.controls.email.touched)">              
+                                    <div *ngIf="registerForm.controls.email.errors.required">
+                                      Email is required.
+                                    </div>
+                                    <div *ngIf="registerForm.controls.email.errors.email">
+                                      Enter a valid email.
+                                    </div>
+                                </div>
+                                <div class="input-group mb-2">
+                                    <input formControlName="confirmEmail" type="email" class="form-control" placeholder="Retype your email">
+                                    <div class="input-group-append input-group-text">
+                                        <span class="fas fa-envelope"></span>
+                                    </div>     
+                                </div>
+                                <div class="form-control-feedback text-danger mb-2" *ngIf="registerForm.controls.confirmEmail.invalid && (registerForm.controls.confirmEmail.dirty || registerForm.controls.confirmEmail.touched)">              
+                                    <div *ngIf="registerForm.controls.confirmEmail.errors.required">
+                                        Confirmation email is required.
+                                    </div>
+                                    <div *ngIf="registerForm.controls.confirmEmail.errors.email">
+                                        Confirmation email not valid.
+                                    </div>
+                                </div>
+                                <div class="input-group mb-2">
+                                    <input formControlName="password" type="password" class="form-control" placeholder="Enter your password">
+                                    <div class="input-group-append input-group-text">
+                                        <span class="fas fa-lock"></span>
+                                    </div>
+                                </div>
+                                <div class="form-control-feedback text-danger mb-2" *ngIf="registerForm.controls.password.invalid && (registerForm.controls.password.dirty || registerForm.controls.password.touched)">              
+                                    <div *ngIf="registerForm.controls.password.errors.minlength">
+                                        Password must be at least 6 characters long.
+                                    </div>
+                                    <div *ngIf="registerForm.controls.password.errors">
+                                        Password must contain at least one uppercase, one lowercase, and one number.
+                                    </div>
+                                </div>
+                                <div class="input-group mb-2">
+                                    <input formControlName="retypePassword" type="password" class="form-control" placeholder="Retype your password">
+                                    <div class="input-group-append input-group-text">
+                                        <span class="fas fa-lock"></span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="input-group mb-3">
-                            <input formControlName="surname" type="text" class="form-control" placeholder="Enter your surname">
-                            <div class="input-group-append input-group-text">
-                                <span class="fas fa-user"></span>
-                            </div>
-                        </div>
-                        <div class="input-group mb-3">
-                            <input  formControlName="email" type="email" class="form-control" placeholder="Enter your email" (keyup)="getEmailAddress($event)">
-                            <div class="input-group-append input-group-text">
-                                <span class="fas fa-envelope"></span>
-                            </div>
-                        </div>
-                        <div class="input-group mb-3">
-                            <input formControlName="confirmEmail" type="email" class="form-control" placeholder="Retype your email">
-                            <div class="input-group-append input-group-text">
-                                <span class="fas fa-envelope"></span>
-                            </div>
-                        </div>
-                        <div class="input-group mb-3">
-                            <input formControlName="password" type="password" class="form-control" placeholder="Enter your password">
-                            <div class="input-group-append input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
-                        <div class="input-group mb-3">
-                            <input formControlName="retypePassword" type="password" class="form-control" placeholder="Retype your password">
-                            <div class="input-group-append input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
+                          </div>
+                       
                         <div class="row">
                             <div class="col-8">
                                 <div class="icheck-primary">
@@ -70,24 +138,12 @@
                             </div>
                             <!-- /.col -->
                             <div class="col-4">
-                                <button [disabled]="!agree" (click)="tryRegister(registerForm.value)" type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+                                <button [disabled]="!registerForm.valid" (click)="tryRegister(registerForm.value)" type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
                             </div>
                             <!-- /.col -->
                         </div>
                     </form>
-        
-                    <div class="social-auth-links text-center">
-                        <p>- OR -</p>
-                        <!-- <a (click)="facebookLogin()" class="btn btn-block btn-primary">
-                            <i class="fab fa-facebook mr-2"></i>
-                            Sign up using Facebook
-                        </a> -->
-                        <a (click)="googleLogin()" class="btn btn-block btn-danger" style="color:#fff">
-                            <i class="fab fa-google-plus mr-2"></i>
-                            Sign up using Google+
-                        </a>
-                    </div>
-        
+              
                     <a routerLink="/signIn" class="text-center">I already have a membership</a>
                 </div>
                 <!-- /.form-box -->

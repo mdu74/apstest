@@ -152,7 +152,7 @@
                 <div class="form-group">
                   <label class="control-label">
                     <i class="fas fa-user"></i>Your name</label>
-                  <input formControlName="name" type="text" class="form-control" ngModel="{{user.name}}" placeholder="Your name is?" pattern="[A-zA-Z ]*" required />                
+                  <input formControlName="name" type="text" class="form-control" ngModel="{{user.name}}" placeholder="Your name is?" required />                
                   <div class="form-control-feedback text-danger" *ngIf="dashboardForm.controls.name.invalid && (dashboardForm.controls.name.dirty || dashboardForm.controls.name.touched)" >              
                     <div *ngIf="dashboardForm.controls.name.errors.required">
                       Name is required.
@@ -161,7 +161,7 @@
                       Name must be at least 2 characters long.
                     </div>
                     <div *ngIf="dashboardForm.controls.name.errors.pattern">
-                      Name should only contain letters.
+                      Name should start with a capital letter and should only contain letters.
                     </div>
                   </div>
                 </div>
@@ -178,7 +178,7 @@
                         Surname must be at least 2 characters long.
                       </div>
                       <div *ngIf="dashboardForm.controls.surname.errors.pattern">
-                        Surname should only contain letters.
+                        Surname must start with uppercase and should only contain letters.
                       </div>
                     </div>
                 </div> 
