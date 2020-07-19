@@ -28,7 +28,8 @@ export class SignInComponent implements OnInit {
   createForm() {
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required ],
-      password: ['',Validators.required]
+      password: ['',Validators.required],
+      passwordResetEmail: ''
     });
   }
 
@@ -56,13 +57,13 @@ export class SignInComponent implements OnInit {
     })
   }
 
-  forgotPassword(){
-    this.displayForgotPasswordForm = this.displayForgotPasswordForm ? false : true;
+  forgotPassword(value){
+    this.resetPassword(value.passwordResetEmail);
   }
 
   resetPassword(email: string){
     this.authenticationService.forgotPassword(email)
-    .then(res => {      
+    .then(res => {    
       swal.fire(res.code, res.message, 'success');
     }, err => {      
       swal.fire(err.code, err.message, 'error');

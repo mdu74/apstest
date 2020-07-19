@@ -58,16 +58,44 @@
                                     </div>
                                     <!-- /.col -->
                                 </div>
+
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Reset password</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input formControlName="passwordResetEmail" class="form-control" type="email" placeholder="Email">
+                                                <p class="mt-4 text-center">                                                 
+                                                    We will send a link to your email for you to reset your password.
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary" (click)="forgotPassword(loginForm.value)" data-dismiss="modal">Send
+                                                    email</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </form>
 
                             <!-- /.social-auth-links -->
 
                             <p class="mb-1">
-                                <a (click)="forgotPassword()" >I forgot my password</a>
+                                <a  data-toggle="modal" data-target="#exampleModal" >I forgot my password</a>
                             </p>
                             <p class="mb-0">
                                 <a routerLink="/register" class="text-center">Register a new membership</a>
                             </p>
+
+                           
+
                         </div>
                         <!-- /.login-card-body -->
                     </div>

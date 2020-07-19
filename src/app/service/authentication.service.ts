@@ -120,41 +120,6 @@ export class AuthenticationService{
     });
   }
 
-  // onAuthUserListener = (next, fallback) =>
-  // this.afAuth.auth.onAuthStateChanged(authUser => {
-  //     if(authUser){
-  //       this.user$
-
-  //     }
-
-
-  //     const urlCurrent = window.location.href;
-  //     const valueOobCode = "";
-  //     if(valueOobCode !== null){
-  //       this.afAuth.auth.checkActionCode(valueOobCode)
-  //       .then(result => {
-  //         if (!authUser.emailVerified){
-  //           this.afAuth.auth.applyActionCode(valueOobCode)
-  //           .then( resp =>{
-  //             console.log("Success in applying the action code");
-  //             this.afAuth.auth.currentUser.reload();
-  //           })
-  //           .catch(error => {
-  //             console.log("ERROR in applying action code: ", error);
-  //           })
-  //         }
-  
-  //       })
-  //       .catch(error => {
-  //         console.log("ERROR from checkActionCode: ",error)
-  //       })
-  
-
-  //     }
-     
-  // } )
-
-
   forgotPassword(email: string) {
     return new Promise<any>((resolve, reject) => {
       this.afAuth.auth.sendPasswordResetEmail(email)
