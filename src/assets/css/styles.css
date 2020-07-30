@@ -111,4 +111,9 @@
         left: 148px;
         bottom: 42px;
     }
-  }
+
+    .estimation-card-icon{
+        display: none;
+    }
+}
+  

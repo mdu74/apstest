@@ -45,7 +45,8 @@ export class DashboardComponent implements OnInit {
       "Capitec",
       "FNB",
       "Standard Bank",
-      "Nedbank"
+      "Nedbank",
+      "Tymebank"
     ];
 
     this.route.data.subscribe(routeData => {
