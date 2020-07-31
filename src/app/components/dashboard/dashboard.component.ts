@@ -83,6 +83,9 @@ export class DashboardComponent implements OnInit {
     } else if (this.user.bank === "Nedbank") {
       return "nedbank";
     }
+    else if (this.user.bank === "Tymebank") {
+      return "tymebank";
+    }
   }
 
   getUserProfile() {
@@ -151,7 +154,7 @@ export class DashboardComponent implements OnInit {
   }
 
   validateBank(bank: string): boolean {
-    var result = _.isEmpty(bank) || (bank === "Absa" || bank === "Capitec" || bank === "FNB" || bank === "Standard Bank" || bank === "Nedbank");
+    var result = _.isEmpty(bank) || (bank === "Absa" || bank === "Capitec" || bank === "FNB" || bank === "Standard Bank" || bank === "Nedbank" || bank === "Tymebank");
     return result;
   }
 
