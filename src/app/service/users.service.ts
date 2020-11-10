@@ -90,50 +90,7 @@ export class UsersService {
     })
   }
 
-  // getUserProfile(userId: string): Observable<User> {
-  //   const usersDocuments = this.db.doc<User>('users/' + userId);
-  //   return usersDocuments.snapshotChanges()
-  //     .pipe(
-  //       map(changes => {
-  //         const data = changes.payload.data();
-  //         const id = changes.payload.id;
-  //         return { id, ...data };
-  //       }))
-  // }
-
-  // getUserProfiles(userId: string): Observable<User[]> {
-  //   const usersDocuments = this.db.collection<User[]>('users');
-  //   return usersDocuments.snapshotChanges()
-  //     .pipe(
-  //       map(changes => changes.map(({ payload: { doc } }) => {
-  //         const data = doc.data();
-  //         const id = doc.id
-  //         return { id, ...data };
-  //       })),
-  //       map((users) => users.find(doc => doc.id === userId)))
-  // }
-
-  // getUser(userId: string){
-  //   return this.db.collection('users').doc(userId).snapshotChanges();
-  // }
-
-  // updateUser(userId: string, value: any){
-  //   value.nameToSearch = value.name.toLowerCase();
-  //   return this.db.collection('users').doc(userId).set(value);
-  // }
-
-  // deleteUser(userId: string){
-  //   return this.db.collection('users').doc(userId).delete();
-  // }  
-
   getUsers(){    
     return this.db.collection('users').snapshotChanges();
   }
-
-  // createUser(user: any){
-  //   return this.db.collection('users').add({
-  //     name: user.name,
-  //     surname: user.surname
-  //   });
-  // }
 }

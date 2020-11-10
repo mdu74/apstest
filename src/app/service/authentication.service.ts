@@ -20,7 +20,7 @@ export class AuthenticationService{
   doFacebookAuth(agreedToTerms: boolean) {
     return new Promise<any>((resolve, reject) => {
       let provider = new firebase.auth.FacebookAuthProvider();
-      this.afAuth.auth
+      this.afAuth
       .signInWithPopup(provider)
       .then(result => {
         this.createUserIfItDoesNotExist(result, agreedToTerms);
@@ -37,7 +37,7 @@ export class AuthenticationService{
       let provider = new firebase.auth.GoogleAuthProvider();
       provider.addScope('profile');
       provider.addScope('email');
-      this.afAuth.auth
+      this.afAuth
       .signInWithPopup(provider)
       .then(result => {
         this.createUserIfItDoesNotExist(result, agreedToTerms);
@@ -107,7 +107,7 @@ export class AuthenticationService{
   doLogout(){
     return new Promise((resolve, reject) => {
       if (firebase.auth().currentUser) {
-        this.afAuth.auth.signOut().then(() => {
+        this.afAuth.signOut().then(() => {
           localStorage.clear();
           window.location.reload();
           this.router.navigate(['/signIn']);
@@ -122,7 +122,7 @@ export class AuthenticationService{
 
   forgotPassword(email: string) {
     return new Promise<any>((resolve, reject) => {
-      this.afAuth.auth.sendPasswordResetEmail(email)
+      this.afAuth.sendPasswordResetEmail(email)
       .then(res => {
         window.alert('Password reset email sent, check your inbox.');
         resolve(res);

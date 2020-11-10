@@ -58,7 +58,6 @@ declare var $: any;
     AppRoutingModule,
     AngularFireAuthModule,
     AngularFireDatabaseModule,
-    AngularFirestoreModule,
     AngularFireAuthGuardModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     BrowserAnimationsModule,
@@ -74,7 +73,7 @@ declare var $: any;
     })
   ],
   exports: [RouterModule],
-  providers: [AngularFirestoreModule, AngularFireAuthGuardModule],
+  providers: [AngularFirestore, AngularFirestoreModule, AngularFireAuthGuardModule],
   bootstrap: [AppComponent]
 })
 

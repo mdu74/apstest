@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "aps-system-ba99a"
+  },
+  "targets": {
+    "aps-system-ba99a": {
+      "hosting": {
+        "aps-app": [
+          "aps-system-ba99a"
+        ]
+      }
+    }
   }
 }
