@@ -23,6 +23,8 @@
     "@angular/router": "^10.1.2",
     "@fortawesome/fontawesome-free": "^5.12.1",
     "@ng-bootstrap/ng-bootstrap": "^6.1.0",
+    "@ngxs/logger-plugin": "^3.6.2-dev.master-eaa5d86",
+    "@ngxs/store": "^3.7.1",
     "@types/jquery": "^3.5.0",
     "@types/lodash": "^4.14.149",
     "angular-sweetalert-service": "^2.0.2",
