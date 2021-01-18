@@ -34,6 +34,7 @@ import { ClientsComponent } from './components/clients/clients.component';
 import { ClientDetailsComponent } from './components/client-details/client-details.component';
 import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxsModule } from '@ngxs/store';
 declare var $: any;
 
 @NgModule({
@@ -70,6 +71,9 @@ declare var $: any;
     ToastrModule.forRoot(),
     RouterModule.forRoot(appRoutes, {
       onSameUrlNavigation: 'reload'
+    }),
+    NgxsModule.forRoot([], {
+      developmentMode: !environment.production
     })
   ],
   exports: [RouterModule],
