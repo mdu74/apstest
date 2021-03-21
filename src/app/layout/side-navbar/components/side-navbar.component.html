@@ -1,0 +1,70 @@
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary aps-theme-nav elevation-4">
+    <!-- Brand Logo -->
+    <a href="/home" class="brand-link" style="padding-left: 56px;">
+        <img src="assets/img/logoWhite.png" alt="" style="width: 100px; height: auto; padding-left: 10px;">
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                   with font-awesome or any other icon font library -->
+                <li class="nav-item has-treeview menu-open">
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a routerLink="dashboard" class="nav-link" routerLinkActive="active">
+                                <i class="fas fa-chart-bar nav-icon"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a routerLink="estimates/{{userId}}" class="nav-link" routerLinkActive="active">
+                                <i class="fas fa-chart-pie nav-icon"></i>
+                                <p>Estimates</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" *ngIf="visible">
+                            <a routerLink="clients" class="nav-link" routerLinkActive="active">
+                                <i class="fas fa-users nav-icon"></i>
+                                <p>Clients</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a routerLink="our-contacts" class="nav-link" routerLinkActive="active">
+                                <i class="fas fa-phone-alt nav-icon"></i>
+                                <p>Our Contacts</p>
+                            </a>
+                        </li>
+                        <li *ngIf="canRegister && !isLoggedIn" id="registerUser" class="nav-item register">
+                            <a routerLink="register" class="nav-link" routerLinkActive="active">
+                                <i class="fas fa-pen-alt nav-icon"></i>
+                                <p>Register</p>
+                            </a>
+                        </li>
+                        <li *ngIf="!isLoggedIn" class="nav-item sign-in">
+                            <a routerLink="sign-in" class="nav-link" routerLinkActive="active">
+                                <i class="fas fa-sign-in-alt nav-icon"></i>
+                                <p>Sign In</p>
+                            </a>
+                        </li>
+                        <li *ngIf="isLoggedIn" class="nav-item log-out">
+                            <a (click)="logout()" class="nav-link" routerLinkActive="active">
+                                <i class="fas fa-sign-out-alt nav-icon"></i>
+                                <p>Log Out</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
+
+<router-outlet></router-outlet>
